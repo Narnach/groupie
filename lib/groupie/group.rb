@@ -10,10 +10,6 @@ class Groupie
       nil
     end
 
-    def contains?(entry)
-      @entries.include?(entry)
-    end
-
     def count(entry)
       @entries.inject(0) do |count, element|
         element == entry ? count + 1 : count
