@@ -22,4 +22,14 @@ Testy.testing 'Groupie' do
       :expect => {:spam => 0.5, :ham => 0.5},
       :actual => classification
   end
+
+  test 'classification is weighed more heavy in one group' do |t|
+    g = Groupie.new
+    g[:spam].add %w[buy viagra now]
+    g[:spam].add %w[buy cialis now]
+    g[:ham].add %w[buy flowers for your mom]
+    t.check 'buy is classified as',
+      :expect => {:spam => 2 / 3.0, :ham => 1 / 3.0},
+      :actual => g.classify('buy')
+  end
 end

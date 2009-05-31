@@ -7,7 +7,6 @@ class Groupie
 
     def add(*new_entries)
       @entries.concat(new_entries.flatten)
-      @entries.uniq!
       nil
     end
 
