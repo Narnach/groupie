@@ -2,7 +2,10 @@ class Groupie
   module CoreExt
     module String
       def tokenize
-        downcase.gsub(/<[^>]+?>|[^\w -]/,'').split(" ")
+        downcase.
+          gsub(/\s/," ").
+          gsub(/<[^>]+?>|[^\w -.]/,'').
+          split(" ").map {|str| str.gsub(/\.+\Z/,'')}
       end
     end
   end

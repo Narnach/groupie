@@ -29,5 +29,12 @@ Testy.testing 'String' do
         :expect => %w[example],
         :actual => tokens
     end
+
+    test 'some dots are ok' do |t|
+      tokens = 'example.org is a website. read it...'.tokenize
+      t.check 'infix dots are kept',
+        :expect => %w[example.org is a website read it],
+        :actual => tokens
+    end
   end
 end
