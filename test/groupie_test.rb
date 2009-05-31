@@ -32,4 +32,14 @@ Testy.testing 'Groupie' do
       :expect => {:spam => 2 / 3.0, :ham => 1 / 3.0},
       :actual => g.classify('buy')
   end
+
+  test 'classification works fine with more than two groups' do |t|
+    g = Groupie.new
+    g[:weight].add 'pound'
+    g[:currency].add 'pound'
+    g[:phone_key].add 'pound'
+    t.check 'pound is classified as',
+      :expect => {:weight => 1/3.0, :currency => 1/3.0, :phone_key => 1/3.0},
+      :actual => g.classify('pound')
+  end
 end
