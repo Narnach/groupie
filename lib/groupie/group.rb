@@ -4,6 +4,10 @@ class Groupie
       @name = name
       @word_counts = {}
     end
+    
+    def words
+      @word_counts.keys
+    end
 
     # Add new words to the group.
     def add(*words)
@@ -15,7 +19,7 @@ class Groupie
 
     # Return the count for a specific +word+.
     def count(word)
-      @word_counts[word]
+      @word_counts[word] || 0
     end
 
     # Add a single word and count it.
