@@ -1,6 +1,4 @@
-require 'rubygems'
-require 'testy'
-require 'lib/groupie'
+require File.join(File.dirname(__FILE__), 'test_helper')
 
 Testy.testing 'Groupie' do
   test 'classification is certain' do |t|
