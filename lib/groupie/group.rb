@@ -2,7 +2,7 @@ class Groupie
   class Group
     def initialize(name)
       @name = name
-      @word_counts = Hash.new(0)
+      @word_counts = {}
     end
 
     # Add new words to the group.
@@ -20,6 +20,7 @@ class Groupie
 
     # Add a single word and count it.
     def add_word(word)
+      @word_counts[word] ||= 0
       @word_counts[word] += 1
     end
     private :add_word
