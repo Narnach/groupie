@@ -4,8 +4,9 @@ class Groupie
       def tokenize
         downcase.
           gsub(/\s/," ").
-          gsub(/<[^>]+?>|[^\w -.]/,'').
-          split(" ").map {|str| str.gsub(/\.+\Z/,'')}
+          gsub(/[$']/,'').
+          gsub(/<[^>]+?>|[^\w -.,]/,'').
+          split(" ").map {|str| str.gsub(/[,.]+\Z/,'')}
       end
     end
   end

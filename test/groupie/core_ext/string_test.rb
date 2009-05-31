@@ -31,10 +31,15 @@ Testy.testing 'String' do
     end
 
     test 'some dots are ok' do |t|
-      tokens = 'example.org is a website. read it...'.tokenize
+      tokens = 'example.org rocks. read it...'.tokenize
       t.check 'infix dots are kept',
-        :expect => %w[example.org is a website read it],
+        :expect => %w[example.org rocks read it],
         :actual => tokens
+
+      tokens2 = '$1,000,000.00 or $1.000.000,00'.tokenize
+      t.check 'infix commas are kept',
+        :expect => %w[1,000,000.00 or 1.000.000,00],
+        :actual => tokens2
     end
   end
 end
