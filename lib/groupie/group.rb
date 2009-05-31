@@ -2,18 +2,26 @@ class Groupie
   class Group
     def initialize(name)
       @name = name
-      @entries = []
+      @word_counts = Hash.new(0)
     end
 
-    def add(*new_entries)
-      @entries.concat(new_entries.flatten)
+    # Add new words to the group.
+    def add(*words)
+      words.flatten.each do |word|
+        add_word(word)
+      end
       nil
     end
 
-    def count(entry)
-      @entries.inject(0) do |count, element|
-        element == entry ? count + 1 : count
-      end
+    # Return the count for a specific +word+.
+    def count(word)
+      @word_counts[word]
     end
+
+    # Add a single word and count it.
+    def add_word(word)
+      @word_counts[word] += 1
+    end
+    private :add_word
   end
 end
