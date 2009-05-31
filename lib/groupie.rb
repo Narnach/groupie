@@ -1,6 +1,7 @@
 lib_dir = File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH.unshift(lib_dir) unless $LOAD_PATH.include?(lib_dir)
 require 'groupie/group'
+require 'groupie/core_ext/string'
 
 class Groupie
   def initialize
