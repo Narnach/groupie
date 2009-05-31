@@ -90,4 +90,14 @@ Am Sonntag, den 31.05.2009, 17:53 +0200 schrieb Steve Dodier:
       :expect => {:spam => 2/3.0, :ham => 1/3.0},
       :actual => g.classify('to')
   end
+  
+  test 'tokenized html emails' do |t|
+    g = Groupie.new
+    g[:spam].add File.read(File.join(File.dirname(__FILE__),%w[fixtures spam spam.la-44118014.txt])).tokenize
+    g[:ham].add File.read(File.join(File.dirname(__FILE__),%w[fixtures ham spam.la-44116217.txt])).tokenize
+    classification = g.classify 'to'
+    t.check 'classification of "to"',
+      :expect => {:spam => 2/3.0, :ham => 1/3.0},
+      :actual => classification
+  end
 end

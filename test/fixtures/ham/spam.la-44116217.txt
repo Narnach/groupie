@@ -1,0 +1,79 @@
+From **HIDDEN**@lists.ubuntu.com  Sun May 31 10:22:46 2009
+Return-Path: <**HIDDEN**@lists.ubuntu.com>
+X-Original-To: **HIDDEN**@spam.la
+Delivered-To: **HIDDEN**@speedo.dreamhost.com
+Received: from chlorine.canonical.com (chlorine.canonical.com [91.189.94.204])
+	by speedo.dreamhost.com (Postfix) with ESMTP id 18A4F145730
+	for <**HIDDEN**@spam.la>; Sun, 31 May 2009 10:22:47 -0700 (PDT)
+Received: from localhost ([127.0.0.1] helo=chlorine.canonical.com)
+	by chlorine.canonical.com with esmtp (Exim 4.60)
+	(envelope-from <**HIDDEN**@lists.ubuntu.com>)
+	id 1MAoKV-0000Uv-RB; Sun, 31 May 2009 17:56:15 +0100
+Received: from smtp104.mail.ukl.yahoo.com ([77.238.184.36])
+	by chlorine.canonical.com with smtp (Exim 4.60)
+	(envelope-from <**HIDDEN**@yahoo.de>) id 1MAoKO-0000T5-0J
+	for **HIDDEN**@lists.ubuntu.com; Sun, 31 May 2009 17:56:08 +0100
+Received: (qmail 95693 invoked from network); 31 May 2009 16:56:07 -0000
+Received: from unknown (HELO ?192.168.1.33?) **HIDDEN**@88.5.92.30 with plain)
+	by smtp104.mail.ukl.yahoo.com with SMTP; 31 May 2009 16:56:07 -0000
+X-Yahoo-SMTP: omQsrMiswBC_IZdIQhRgQAA3Gn6tTTc-
+X-YMail-OSG: e1ihGm4VM1ljqtG.6IPGOps5aG8IYZJEPQLptGPSxphH174zk4rRTWYQJmj9MMc2nJwZjNEqUnYAjErWKypElvLWu0n.v8baMMlcOOELQK2IZfFaV5Ij3HUpUDWRbd0n6PCV5iFLHlyruq5CSGsiZvfME6HpngIO0RuAcin3rePXdzWpmPnTlZwuC3qjSE9N8wC4pdBdwfmYHy4EKSKFRCXUNzdy9DPgfwqrjiCTP_tqaWmpeUOqA2Os13l0j5d6acIpgo9DcW8P_1ENNVGjJ2Lk4XbZ0oc51M_BJ2n6DHMxoazT
+X-Yahoo-Newman-Property: ymail-3
+From: Oliver Scholtz 1 <**HIDDEN**@yahoo.de>
+To: Discussion on Ubuntu artwork <**HIDDEN**@lists.ubuntu.com>
+In-Reply-To: <**HIDDEN**@mail.gmail.com>
+References: <**HIDDEN**@yahoo.com>
+	<**HIDDEN**@jws141-laptop> <**HIDDEN**@yahoo.com>
+	<**HIDDEN**@isabel-desktop>
+	<**HIDDEN**@web95411.mail.in2.yahoo.com>
+	<**HIDDEN**@dani-desktop> <**HIDDEN**@yahoo.com>
+	<**HIDDEN**@mail.gmail.com>
+	<**HIDDEN**@mail.gmail.com>
+Date: Sun, 31 May 2009 18:56:05 +0200
+Message-Id: <**HIDDEN**@oliver-ubuntu>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.26.1 
+Subject: Re: [ubuntu-art] [Breathe] Network Manager-icons
+X-BeenThere: **HIDDEN**@lists.ubuntu.com
+X-Mailman-Version: 2.1.8
+Precedence: list
+Reply-To: Discussion on Ubuntu artwork <**HIDDEN**@lists.ubuntu.com>
+List-Id: Discussion on Ubuntu artwork <ubuntu-art.lists.ubuntu.com>
+List-Unsubscribe: <https://lists.ubuntu.com/mailman/listinfo/ubuntu-art>,
+	<**HIDDEN**@lists.ubuntu.com?subject=unsubscribe>
+List-Archive: <https://lists.ubuntu.com/archives/ubuntu-art>
+List-Post: <**HIDDEN**@lists.ubuntu.com>
+List-Help: <**HIDDEN**@lists.ubuntu.com?subject=help>
+List-Subscribe: <https://lists.ubuntu.com/mailman/listinfo/ubuntu-art>,
+	<**HIDDEN**@lists.ubuntu.com?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: **HIDDEN**@lists.ubuntu.com
+Errors-To: **HIDDEN**@lists.ubuntu.com
+
+
+
+Am Sonntag, den 31.05.2009, 17:53 +0200 schrieb Steve Dodier:
+> Hello,
+> 
+> I think the notify-osd icons have a completely different style, which
+> is looking great within the notification bubbles, but i doubt it'd
+> look great to have the notify-osd wifi icons in the panel. I think the
+> drawing of the notification- wifi icons should be done afterwards, and
+> if they should be based on those of the icon set, they could be made
+> smoother, and possibly desaturated for some of them, to avoid drawing
+> too much attention from the user when popping up.
+> 
+> Cordially, SD.
+
++1
+---
+And Mac ... much better! Maybe 22 and 16 without pale. ;)
+
+Oliver
+
+
+-- 
+ubuntu-art mailing list
+**HIDDEN**@lists.ubuntu.com
+https://lists.ubuntu.com/mailman/listinfo/ubuntu-art
