@@ -10,7 +10,6 @@ Groupie is a 'fun' project that has the following goals, in descending order of 
 * Have fun playing with code
 * Play with Bayesian-like (spam) filtering
 * Check out the Testy BDD framework. It's pretty good for 60 lines of code!
-* Do classification for complete (tokenized) texts.
 
 == Current functionality
 
@@ -20,6 +19,7 @@ Current funcionality includes:
   * Keep certain infix characters, such as period and comma.
 * Add texts (as an Array of Strings) to any number of groups.
 * Classify a single word to check the likelihood it belongs to each group.
+* Do classification for complete (tokenized) texts.
 
 == License
 

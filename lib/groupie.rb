@@ -22,8 +22,17 @@ class Groupie
 
     @groups.each do |name, group|
       count = group.count(entry)
-      results[name] = count.to_f / total_count if count > 0
+      results[name] = count > 0 ? count.to_f / total_count : 0.0
     end
     return results
+  end
+
+  def classify_text(words)
+    words.inject({}) do |results, word|
+      word_results = classify(word)
+      results.merge(word_results) do |key, old, new|
+        (old + new) / 2.0
+      end
+    end
   end
 end

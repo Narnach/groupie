@@ -7,7 +7,7 @@ Testy.testing 'Groupie' do
     g[:ham].add %w[flowers]
     classification = g.classify 'viagra'
     t.check 'viagra is',
-      :expect => {:spam => 1.0},
+      :expect => {:spam => 1.0, :ham => 0.0},
       :actual => classification
   end
 
@@ -90,7 +90,7 @@ Am Sonntag, den 31.05.2009, 17:53 +0200 schrieb Steve Dodier:
       :expect => {:spam => 2/3.0, :ham => 1/3.0},
       :actual => g.classify('to')
   end
-  
+
   test 'tokenized html emails' do |t|
     g = Groupie.new
     g[:spam].add File.read(File.join(File.dirname(__FILE__),%w[fixtures spam spam.la-44118014.txt])).tokenize
@@ -99,5 +99,20 @@ Am Sonntag, den 31.05.2009, 17:53 +0200 schrieb Steve Dodier:
     t.check 'classification of "to"',
       :expect => {:spam => 2/3.0, :ham => 1/3.0},
       :actual => classification
+  end
+
+  test 'classify a text' do |t|
+    g = Groupie.new
+    g[:spam].add %w[buy viagra now to grow fast]
+    g[:spam].add %w[buy cialis on our website]
+    g[:ham].add %w[buy flowers for your mom]
+    result = g.classify_text "Grow flowers to sell on our website".tokenize
+    t.check 'classification of a spammy text',
+      :expect => {:spam => 0.96875, :ham => 0.03125},
+      :actual => result
+    result2 = g.classify_text "Grow flowers to give to your mom".tokenize
+    t.check 'classification of a non-spammy text',
+      :expect => {:spam => 0.21875, :ham => 0.78125},
+      :actual => result2
   end
 end
