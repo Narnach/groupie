@@ -93,12 +93,19 @@ Am Sonntag, den 31.05.2009, 17:53 +0200 schrieb Steve Dodier:
 
   test 'tokenized html emails' do |t|
     g = Groupie.new
-    g[:spam].add File.read(File.join(File.dirname(__FILE__),%w[fixtures spam spam.la-44118014.txt])).tokenize
-    g[:ham].add File.read(File.join(File.dirname(__FILE__),%w[fixtures ham spam.la-44116217.txt])).tokenize
+    spam_tokens = File.read(File.join(File.dirname(__FILE__),
+      %w[fixtures spam spam.la-44118014.txt])).tokenize
+    ham_tokens = File.read(File.join(File.dirname(__FILE__),
+      %w[fixtures ham spam.la-44116217.txt])).tokenize
+    g[:spam].add spam_tokens
+    g[:ham].add ham_tokens
     classification = g.classify 'to'
     t.check 'classification of "to"',
       :expect => {:spam => 2/3.0, :ham => 1/3.0},
       :actual => classification
+    t.check 'classification of spam email is spam',
+      :expect => true,
+      :actual => g.classify_text(spam_tokens)[:spam] > 0.99
   end
 
   test 'classify a text' do |t|
