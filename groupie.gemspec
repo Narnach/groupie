@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
      "LICENSE",
      "Rakefile",
      "VERSION",
+     "groupie.gemspec",
      "lib/groupie.rb",
      "lib/groupie/core_ext/string.rb",
      "lib/groupie/group.rb",
