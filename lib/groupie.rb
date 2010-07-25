@@ -44,4 +44,8 @@ class Groupie
 
     averages
   end
+  
+  def self.version
+    File.read(File.join(File.dirname(File.expand_path(__FILE__)), "..", "VERSION")).strip
+  end
 end
