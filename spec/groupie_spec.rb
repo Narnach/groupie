@@ -45,6 +45,35 @@ describe Groupie do
       c2 = g.classify('user')
       c2[:ham].should > c2[:spam]
     end
+
+    describe "strategies" do
+      describe "sum" do
+        it "should weigh words for the sum of their occurances" do
+          g = Groupie.new
+          g[:spam].add %w[word] * 9
+          g[:ham].add %w[word]
+          g.classify('word', :sum).should == {:spam=>0.9, :ham=>0.1}
+        end
+      end
+
+      describe "sqrt" do
+        it "should weigh words for the square root of the sum of ocurances" do
+          g = Groupie.new
+          g[:spam].add %w[word] * 9
+          g[:ham].add %w[word]
+          g.classify('word', :sqrt).should == {:spam=>0.75, :ham=>0.25}
+        end
+      end
+
+      describe "log" do
+        it "should weigh words for log10 of their sum of occurances" do
+          g = Groupie.new
+          g[:spam].add %w[word] * 1000
+          g[:ham].add %w[word] * 10
+          g.classify('word', :log).should == {:spam=>0.75, :ham=>0.25}
+        end
+      end
+    end
   end
 
   context "classify_text" do
@@ -78,6 +107,24 @@ describe Groupie do
       g[:spam].add %w[buy viagra now]
       g[:ham].add %w[buy flowers now]
       g.classify_text(%w[buy buckets now]).should == {:spam=>0.5, :ham=>0.5}
+    end
+    
+    it "should support the sqrt strategy" do
+      g = Groupie.new
+      g[:spam].add %w[one] * 9
+      g[:ham].add %w[one]
+      g[:spam].add %w[two] * 9
+      g[:ham].add %w[two]
+      g.classify_text(%w[one two], :sqrt).should == {:spam=>0.75, :ham=>0.25}
+    end
+    
+    it "should support the log strategy" do
+      g = Groupie.new
+      g[:spam].add %w[one] * 1000
+      g[:ham].add %w[one] * 10
+      g[:spam].add %w[two] * 1000
+      g[:ham].add %w[two] * 10
+      g.classify_text(%w[one two], :log).should == {:spam=>0.75, :ham=>0.25}
     end
   end
 end

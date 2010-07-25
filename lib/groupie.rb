@@ -12,26 +12,42 @@ class Groupie
     @groups[group] ||= Group.new(group)
   end
 
-  def classify(entry)
+  def classify(entry, strategy=:sum)
     results = {}
     total_count = @groups.inject(0) do |sum, name_group|
       group = name_group.last
-      sum + group.count(entry)
+      if strategy==:sum
+        sum + group.count(entry)
+      elsif strategy==:sqrt
+        sum + Math::sqrt(group.count(entry))
+      elsif strategy==:log
+        sum + Math::log10(group.count(entry))
+      else
+        raise "Invalid strategy: #{strategy}"
+      end
     end
     return results if 0 == total_count
 
     @groups.each do |name, group|
-      count = group.count(entry)
+      if strategy==:sum
+        count = group.count(entry)
+      elsif strategy==:sqrt
+        count = Math::sqrt(group.count(entry))
+      elsif strategy==:log
+        count = Math::log10(group.count(entry))
+      else
+        raise "Invalid strategy: #{strategy}"
+      end
       results[name] = count > 0 ? count.to_f / total_count : 0.0
     end
     return results
   end
 
   # Classify a text by taking the average of all word classifications.
-  def classify_text(words)
+  def classify_text(words, strategy=:sum)
     hits = 0
     group_score_sums = words.inject({}) do |results, word|
-      word_results = classify(word)
+      word_results = classify(word, strategy)
       next results if word_results.empty?
       hits += 1
       results.merge(word_results) do |key, old, new|
@@ -39,7 +55,6 @@ class Groupie
       end
     end
 
-    words_count = words.size.to_f
     averages={}
     group_score_sums.each do |group, sum|
       averages[group] = hits > 0 ? sum / hits : 0
