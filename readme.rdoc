@@ -9,7 +9,6 @@ The eventual goal is to have Groupie work as a sort of bayesian spam filter, whe
 Groupie is a 'fun' project that has the following goals, in descending order of importance:
 * Have fun playing with code
 * Play with Bayesian-like (spam) filtering
-* Check out the Testy BDD framework. It's pretty good for 60 lines of code!
 
 == Current functionality
 

@@ -1,0 +1,13 @@
+Re: [ubuntu-art] [Breathe] Network Manager-icons
+Am Sonntag, den 31.05.2009, 17:53 +0200 schrieb Steve Dodier:
+> Hello,
+>
+> I think the notify-osd icons have a completely different style, which
+> is looking great within the notification bubbles, but i doubt it'd
+> look great to have the notify-osd wifi icons in the panel. I think the
+> drawing of the notification- wifi icons should be done afterwards, and
+> if they should be based on those of the icon set, they could be made
+> smoother, and possibly desaturated for some of them, to avoid drawing
+> too much attention from the user when popping up.
+>
+> Cordially, SD.

@@ -6,7 +6,7 @@ class Groupie
           gsub(/\s/," ").
           gsub(/[$']/,'').
           gsub(/<[^>]+?>|[^\w -.,]/,'').
-          split(" ").map {|str| str.gsub(/[,.]+\Z/,'')}
+          split(" ").map {|str| str.gsub(/[!,.]+\Z/,'')}
       end
     end
   end
