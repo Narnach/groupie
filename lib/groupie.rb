@@ -29,8 +29,11 @@ class Groupie
 
   # Classify a text by taking the average of all word classifications.
   def classify_text(words)
+    hits = 0
     group_score_sums = words.inject({}) do |results, word|
       word_results = classify(word)
+      next results if word_results.empty?
+      hits += 1
       results.merge(word_results) do |key, old, new|
         old + new
       end
@@ -39,7 +42,7 @@ class Groupie
     words_count = words.size.to_f
     averages={}
     group_score_sums.each do |group, sum|
-      averages[group] = sum / words_count
+      averages[group] = hits > 0 ? sum / hits : 0
     end
 
     averages

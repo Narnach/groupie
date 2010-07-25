@@ -46,6 +46,7 @@ describe Groupie do
       c2[:ham].should > c2[:spam]
     end
   end
+
   context "classify_text" do
     it 'should tokenized html emails' do
       g = Groupie.new
@@ -70,6 +71,13 @@ describe Groupie do
       result[:spam].should > result[:ham]
       result2 = g.classify_text "Grow flowers to give to your mom".tokenize
       result2[:ham].should == result2[:spam]
+    end
+
+    it "should skip unknown tokens" do
+      g = Groupie.new
+      g[:spam].add %w[buy viagra now]
+      g[:ham].add %w[buy flowers now]
+      g.classify_text(%w[buy buckets now]).should == {:spam=>0.5, :ham=>0.5}
     end
   end
 end
