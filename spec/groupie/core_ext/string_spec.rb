@@ -29,5 +29,9 @@ describe String do
     it "should preserve infix commas" do
       '$1,000,000.00 or $1.000.000,00'.tokenize.should == %w[1,000,000.00 or 1.000.000,00]
     end
+    
+    it "should strip quotes around tokens" do
+      '"first last"'.tokenize.should == %w[first last]
+    end
   end
 end
