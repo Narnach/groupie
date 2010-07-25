@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{groupie}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Wes Oldenbeuving"]
@@ -25,12 +25,15 @@ Gem::Specification.new do |s|
      "lib/groupie/core_ext/string.rb",
      "lib/groupie/group.rb",
      "readme.rdoc",
-     "test/fixtures/ham/spam.la-44116217.txt",
-     "test/fixtures/spam/spam.la-44118014.txt",
-     "test/groupie/core_ext/string_test.rb",
-     "test/groupie/group_test.rb",
-     "test/groupie_test.rb",
-     "test/test_helper.rb"
+     "spec/fixtures/ham/email_ham1.txt",
+     "spec/fixtures/ham/spam.la-44116217.txt",
+     "spec/fixtures/spam/email_spam1.txt",
+     "spec/fixtures/spam/email_spam2.txt",
+     "spec/fixtures/spam/spam.la-44118014.txt",
+     "spec/groupie/core_ext/string_spec.rb",
+     "spec/groupie/group_spec.rb",
+     "spec/groupie_spec.rb",
+     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/Narnach/groupie}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -38,10 +41,10 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Group and classify text}
   s.test_files = [
-    "test/groupie/core_ext/string_test.rb",
-     "test/groupie/group_test.rb",
-     "test/groupie_test.rb",
-     "test/test_helper.rb"
+    "spec/groupie/core_ext/string_spec.rb",
+     "spec/groupie/group_spec.rb",
+     "spec/groupie_spec.rb",
+     "spec/spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
