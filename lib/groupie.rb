@@ -16,25 +16,28 @@ class Groupie
     results = {}
     total_count = @groups.inject(0) do |sum, name_group|
       group = name_group.last
+      count = group.count(entry)
       if strategy==:sum
-        sum + group.count(entry)
+        sum += count
       elsif strategy==:sqrt
-        sum + Math::sqrt(group.count(entry))
+        sum += Math::sqrt(count)
       elsif strategy==:log
-        sum + Math::log10(group.count(entry))
+        sum += Math::log10(count) if count > 0
       else
         raise "Invalid strategy: #{strategy}"
       end
+      next sum
     end
     return results if 0 == total_count
 
     @groups.each do |name, group|
+      count = group.count(entry)
       if strategy==:sum
-        count = group.count(entry)
+        # keep count
       elsif strategy==:sqrt
-        count = Math::sqrt(group.count(entry))
+        count = Math::sqrt(count)
       elsif strategy==:log
-        count = Math::log10(group.count(entry))
+        count = Math::log10(count) if count > 0
       else
         raise "Invalid strategy: #{strategy}"
       end
@@ -62,7 +65,7 @@ class Groupie
 
     averages
   end
-  
+
   def self.version
     File.read(File.join(File.dirname(File.expand_path(__FILE__)), "..", "VERSION")).strip
   end

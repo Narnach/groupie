@@ -115,16 +115,16 @@ describe Groupie do
       g[:ham].add %w[one]
       g[:spam].add %w[two] * 9
       g[:ham].add %w[two]
-      g.classify_text(%w[one two], :sqrt).should == {:spam=>0.75, :ham=>0.25}
+      g.classify_text(%w[one two three], :sqrt).should == {:spam=>0.75, :ham=>0.25}
     end
     
     it "should support the log strategy" do
       g = Groupie.new
-      g[:spam].add %w[one] * 1000
-      g[:ham].add %w[one] * 10
-      g[:spam].add %w[two] * 1000
-      g[:ham].add %w[two] * 10
-      g.classify_text(%w[one two], :log).should == {:spam=>0.75, :ham=>0.25}
+      g[:spam].add %w[one] * 100
+      g[:ham].add %w[one]
+      g[:spam].add %w[two]
+      g[:ham].add %w[two] * 100
+      g.classify_text(%w[one two three], :log).should == {:spam=>0.5, :ham=>0.5}
     end
   end
 end
