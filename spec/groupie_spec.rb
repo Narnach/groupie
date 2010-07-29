@@ -73,6 +73,32 @@ describe Groupie do
           g.classify('word', :log).should == {:spam=>0.75, :ham=>0.25}
         end
       end
+
+      describe "unique" do
+        it "should ignore words that appear in all groups" do
+          g = Groupie.new
+          g[:spam].add %w[buy viagra now]
+          g[:ham].add %w[buy flowers now]
+          g.classify('buy', :unique).should == {}
+          g.classify('flowers', :unique).should == {:ham=>1.0, :spam=>0.0}
+        end
+      end
+    end
+  end
+
+  describe "unique_words" do
+    it "should ignore all words that appear in multiple groups" do
+      g = Groupie.new
+      g[:spam].add %w[buy viagra now]
+      g[:ham].add %w[buy flowers now]
+      g.unique_words.should == %w[flowers viagra]
+    end
+
+    it "should not ignore words that appear multiple times in a single group" do
+      g = Groupie.new
+      g[:spam].add %w[buy viagra]
+      g[:ham].add %w[buy flowers flowers]
+      g.unique_words.should == %w[flowers viagra]
     end
   end
 
@@ -108,7 +134,7 @@ describe Groupie do
       g[:ham].add %w[buy flowers now]
       g.classify_text(%w[buy buckets now]).should == {:spam=>0.5, :ham=>0.5}
     end
-    
+
     it "should support the sqrt strategy" do
       g = Groupie.new
       g[:spam].add %w[one] * 9
@@ -117,7 +143,7 @@ describe Groupie do
       g[:ham].add %w[two]
       g.classify_text(%w[one two three], :sqrt).should == {:spam=>0.75, :ham=>0.25}
     end
-    
+
     it "should support the log strategy" do
       g = Groupie.new
       g[:spam].add %w[one] * 100

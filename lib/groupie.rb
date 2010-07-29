@@ -12,6 +12,21 @@ class Groupie
     @groups[group] ||= Group.new(group)
   end
 
+  # Return all words that only appear in a single group
+  def unique_words
+    unique_words = []
+    first_run=true
+    @groups.each do |name, group|
+      if first_run
+        unique_words = group.words
+        first_run=false
+        next
+      end
+      unique_words = (unique_words + group.words) - (unique_words & group.words)
+    end
+    unique_words
+  end
+
   def classify(entry, strategy=:sum)
     results = {}
     total_count = @groups.inject(0) do |sum, name_group|
@@ -23,6 +38,10 @@ class Groupie
         sum += Math::sqrt(count)
       elsif strategy==:log
         sum += Math::log10(count) if count > 0
+      elsif strategy==:unique
+        if unique_words.include?(entry)
+          sum += count
+        end
       else
         raise "Invalid strategy: #{strategy}"
       end
@@ -38,6 +57,10 @@ class Groupie
         count = Math::sqrt(count)
       elsif strategy==:log
         count = Math::log10(count) if count > 0
+      elsif strategy==:unique
+        unless unique_words.include?(entry)
+          count = 0
+        end
       else
         raise "Invalid strategy: #{strategy}"
       end
