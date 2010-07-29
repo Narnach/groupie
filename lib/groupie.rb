@@ -12,15 +12,11 @@ class Groupie
     @groups[group] ||= Group.new(group)
   end
 
-  # Return all words that occur equal to or less than their group's median occurancy frequency.
-  # This median is always 1 or higher
   def unique_words
-    @groups.values.map { |group|
-      word_frequencies = group.word_counts.values
-      next [] if word_frequencies.empty?
-      median_frequency = [word_frequencies.sort[word_frequencies.size/2-1], 1].max
-      group.word_counts.select{|word, count| count <= median_frequency}.map(&:first)
-    }.flatten
+    total_count = @groups.values.map {|group| group.word_counts}.inject{|total, counts| total.merge(counts){|key,o,n| o+n}}
+    median_index = [total_count.values.size * 3 / 4 - 1, 1].max
+    median_frequency = total_count.values.sort[median_index]
+    total_count.select{|word, count| count <= median_frequency}.map(&:first)
   end
 
   def classify(entry, strategy=:sum)

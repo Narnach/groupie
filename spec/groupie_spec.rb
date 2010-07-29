@@ -87,11 +87,11 @@ describe Groupie do
   end
 
   describe "unique_words" do
-    it "should include all words that have a occurance frequency below the median of their group" do
+    it "should exclude all words in the 4th quintile of all groups" do
       g = Groupie.new
       g[:spam].add %w[one two two three three three four four four four]
-      g[:ham].add %w[apple banana pear]
-      g.unique_words.sort.should == %w[one two apple banana pear].sort
+      g[:ham].add %w[apple banana pear orange three]
+      g.unique_words.sort.should == %w[one two apple banana pear orange].sort
     end
   end
 
