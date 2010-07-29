@@ -13,10 +13,12 @@ class Groupie
   end
 
   def unique_words
-    total_count = @groups.values.map {|group| group.word_counts}.inject{|total, counts| total.merge(counts){|key,o,n| o+n}}
-    median_index = [total_count.values.size * 3 / 4 - 1, 1].max
-    median_frequency = total_count.values.sort[median_index]
-    total_count.select{|word, count| count <= median_frequency}.map(&:first)
+    @unique_words ||= (
+      total_count = @groups.values.map {|group| group.word_counts}.inject{|total, counts| total.merge(counts){|key,o,n| o+n}}
+      median_index = [total_count.values.size * 3 / 4 - 1, 1].max
+      median_frequency = total_count.values.sort[median_index]
+      total_count.select{|word, count| count <= median_frequency}.map(&:first)
+    )
   end
 
   def classify(entry, strategy=:sum)
