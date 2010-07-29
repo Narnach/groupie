@@ -4,7 +4,7 @@ class Groupie
       @name = name
       @word_counts = {}
     end
-    
+
     def words
       @word_counts.keys
     end
@@ -16,6 +16,7 @@ class Groupie
       end
       nil
     end
+    alias << add
 
     # Return the count for a specific +word+.
     def count(word)
