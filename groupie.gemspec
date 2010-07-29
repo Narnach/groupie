@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{groupie}
-  s.version = "0.2.2"
+  s.version = "0.2.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Wes Oldenbeuving"]
-  s.date = %q{2010-07-25}
+  s.date = %q{2010-07-29}
   s.description = %q{Group and classify text based on likelyhood of being included in a text of a specific category}
   s.email = %q{narnach@gmail.com}
   s.extra_rdoc_files = [
