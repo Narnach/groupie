@@ -1,5 +1,6 @@
 class Groupie
   class Group
+    attr_reader :word_counts
     def initialize(name)
       @name = name
       @word_counts = {}

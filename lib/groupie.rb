@@ -12,11 +12,15 @@ class Groupie
     @groups[group] ||= Group.new(group)
   end
 
-  # Return all words that only appear in a single group
-  # Note: performance is abysmal for larger datasets
+  # Return all words that occur equal to or less than their group's median occurancy frequency.
+  # This median is always 1 or higher
   def unique_words
-    all_words = @groups.values.map(&:words).flatten
-    all_words.group_by{|word| word}.select {|word, occurances| occurances.size == 1}.map(&:first)
+    @groups.values.map { |group|
+      word_frequencies = group.word_counts.values
+      next [] if word_frequencies.empty?
+      median_frequency = [word_frequencies.sort[word_frequencies.size/2-1], 1].max
+      group.word_counts.select{|word, count| count <= median_frequency}.map(&:first)
+    }.flatten
   end
 
   def classify(entry, strategy=:sum)

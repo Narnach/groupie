@@ -87,18 +87,11 @@ describe Groupie do
   end
 
   describe "unique_words" do
-    it "should ignore all words that appear in multiple groups" do
+    it "should include all words that have a occurance frequency below the median of their group" do
       g = Groupie.new
-      g[:spam].add %w[buy viagra now]
-      g[:ham].add %w[buy flowers now]
-      g.unique_words.sort.should == %w[flowers viagra]
-    end
-
-    it "should not ignore words that appear multiple times in a single group" do
-      g = Groupie.new
-      g[:spam].add %w[buy viagra]
-      g[:ham].add %w[buy flowers flowers]
-      g.unique_words.sort.should == %w[flowers viagra]
+      g[:spam].add %w[one two two three three three four four four four]
+      g[:ham].add %w[apple banana pear]
+      g.unique_words.sort.should == %w[one two apple banana pear].sort
     end
   end
 
@@ -155,11 +148,9 @@ describe Groupie do
 
     it "should only rate unique words for the unique strategy" do
       g = Groupie.new
-      g[:spam].add %w[one]
-      g[:ham].add %w[one] * 10
-      g[:ham].add %w[ham]
-      g[:spam].add %w[spam]
-      g.classify_text(%w[one spam ham], :unique).should == {:spam=>0.5, :ham=>0.5}
+      g[:spam].add %w[one two two three three three four four four four]
+      g[:ham].add %w[apple banana pear]
+      g.classify_text(%w[one two three apple banana], :unique).should == {:spam=>0.5, :ham=>0.5}
     end
   end
 end
