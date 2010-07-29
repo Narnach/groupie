@@ -93,6 +93,13 @@ describe Groupie do
       g[:ham].add %w[apple banana pear orange three]
       g.unique_words.sort.should == %w[one two apple banana pear orange].sort
     end
+
+    it "should work on an empty word set" do
+      g = Groupie.new
+      g[:spam].add []
+      g[:ham].add []
+      g.unique_words.should == []
+    end
   end
 
   context "classify_text" do
