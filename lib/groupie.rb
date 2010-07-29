@@ -13,18 +13,10 @@ class Groupie
   end
 
   # Return all words that only appear in a single group
+  # Note: performance is abysmal for larger datasets
   def unique_words
-    unique_words = []
-    first_run=true
-    @groups.each do |name, group|
-      if first_run
-        unique_words = group.words
-        first_run=false
-        next
-      end
-      unique_words = (unique_words + group.words) - (unique_words & group.words)
-    end
-    unique_words
+    all_words = @groups.values.map(&:words).flatten
+    all_words.group_by{|word| word}.select {|word, occurances| occurances.size == 1}.map(&:first)
   end
 
   def classify(entry, strategy=:sum)

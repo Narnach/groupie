@@ -91,14 +91,14 @@ describe Groupie do
       g = Groupie.new
       g[:spam].add %w[buy viagra now]
       g[:ham].add %w[buy flowers now]
-      g.unique_words.should == %w[flowers viagra]
+      g.unique_words.sort.should == %w[flowers viagra]
     end
 
     it "should not ignore words that appear multiple times in a single group" do
       g = Groupie.new
       g[:spam].add %w[buy viagra]
       g[:ham].add %w[buy flowers flowers]
-      g.unique_words.should == %w[flowers viagra]
+      g.unique_words.sort.should == %w[flowers viagra]
     end
   end
 
