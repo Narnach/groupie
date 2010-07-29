@@ -24,16 +24,13 @@ class Groupie
     total_count = @groups.inject(0) do |sum, name_group|
       group = name_group.last
       count = group.count(entry)
-      if strategy==:sum
+      case strategy
+      when :sum
         sum += count
-      elsif strategy==:sqrt
+      when :sqrt, :unique
         sum += Math::sqrt(count)
-      elsif strategy==:log
+      when :log
         sum += Math::log10(count) if count > 0
-      elsif strategy==:unique
-        if unique_words.include?(entry)
-          sum += count
-        end
       else
         raise "Invalid strategy: #{strategy}"
       end
@@ -43,16 +40,13 @@ class Groupie
 
     @groups.each do |name, group|
       count = group.count(entry)
-      if strategy==:sum
+      case strategy
+      when :sum
         # keep count
-      elsif strategy==:sqrt
+      when :sqrt, :unique
         count = Math::sqrt(count)
-      elsif strategy==:log
+      when :log
         count = Math::log10(count) if count > 0
-      elsif strategy==:unique
-        unless unique_words.include?(entry)
-          count = 0
-        end
       else
         raise "Invalid strategy: #{strategy}"
       end
@@ -64,6 +58,9 @@ class Groupie
   # Classify a text by taking the average of all word classifications.
   def classify_text(words, strategy=:sum)
     hits = 0
+    if strategy==:unique
+      words = words & unique_words
+    end
     group_score_sums = words.inject({}) do |results, word|
       word_results = classify(word, strategy)
       next results if word_results.empty?

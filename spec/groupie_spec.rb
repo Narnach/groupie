@@ -75,12 +75,12 @@ describe Groupie do
       end
 
       describe "unique" do
-        it "should ignore words that appear in all groups" do
+        it "should should behave as sqrt strategy" do
           g = Groupie.new
           g[:spam].add %w[buy viagra now]
           g[:ham].add %w[buy flowers now]
-          g.classify('buy', :unique).should == {}
-          g.classify('flowers', :unique).should == {:ham=>1.0, :spam=>0.0}
+          g.classify('buy', :unique).should == g.classify('buy', :sqrt)
+          g.classify('flowers', :unique).should == g.classify('flowers', :sqrt)
         end
       end
     end
@@ -151,6 +151,15 @@ describe Groupie do
       g[:spam].add %w[two]
       g[:ham].add %w[two] * 100
       g.classify_text(%w[one two three], :log).should == {:spam=>0.5, :ham=>0.5}
+    end
+
+    it "should only rate unique words for the unique strategy" do
+      g = Groupie.new
+      g[:spam].add %w[one]
+      g[:ham].add %w[one] * 10
+      g[:ham].add %w[ham]
+      g[:spam].add %w[spam]
+      g.classify_text(%w[one spam ham], :unique).should == {:spam=>0.5, :ham=>0.5}
     end
   end
 end
