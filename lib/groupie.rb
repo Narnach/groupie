@@ -36,24 +36,31 @@ class Groupie
     @groups[group] ||= Group.new(group)
   end
 
-  # Return a word score dictionary that excludes the 4th quartile most popular words.
-  # Why do this? So the most common (and thus meaningless) words are ignored
-  # and less common words gain more predictive power.
+  # Classify a text by taking the average of all word classifications.
   #
-  # This is used by the :unique strategy of the classifier.
-  #
-  # @return [Hash<String, Integer>]
-  def unique_words
-    @unique_words ||= begin
-      total_count = @groups.values.map(&:word_counts).inject do |total, counts|
-        total.merge(counts) do |_key, o, n|
-          o + n
-        end
+  # @param [Array<String>] words List of words to be classified
+  # @param [Symbol] strategy
+  # @return [Hash<Object, Float>] Hash with <group, score> pairings. Scores are always in 0.0..1.0
+  # @raise [Groupie::Error] Raise when an invalid strategy is provided
+  def classify_text(words, strategy = :sum)
+    hits = 0
+    words &= unique_words if strategy == :unique
+    group_score_sums = words.inject({}) do |results, word|
+      word_results = classify(word, strategy)
+      next results if word_results.empty?
+
+      hits += 1
+      results.merge(word_results) do |_key, old, new|
+        old + new
       end
-      median_index = [total_count.values.size * 3 / 4 - 1, 1].max
-      median_frequency = total_count.values.sort[median_index]
-      total_count.select { |_word, count| count <= median_frequency }.map(&:first)
     end
+
+    averages = {}
+    group_score_sums.each do |group, sum|
+      averages[group] = hits.positive? ? sum / hits : 0
+    end
+
+    averages
   end
 
   # Classify a single word against all groups.
@@ -99,30 +106,23 @@ class Groupie
     results
   end
 
-  # Classify a text by taking the average of all word classifications.
+  # Return a word score dictionary that excludes the 4th quartile most popular words.
+  # Why do this? So the most common (and thus meaningless) words are ignored
+  # and less common words gain more predictive power.
   #
-  # @param [Array<String>] words List of words to be classified
-  # @param [Symbol] strategy
-  # @return [Hash<Object, Float>] Hash with <group, score> pairings. Scores are always in 0.0..1.0
-  # @raise [Groupie::Error] Raise when an invalid strategy is provided
-  def classify_text(words, strategy = :sum)
-    hits = 0
-    words &= unique_words if strategy == :unique
-    group_score_sums = words.inject({}) do |results, word|
-      word_results = classify(word, strategy)
-      next results if word_results.empty?
-
-      hits += 1
-      results.merge(word_results) do |_key, old, new|
-        old + new
+  # This is used by the :unique strategy of the classifier.
+  #
+  # @return [Hash<String, Integer>]
+  def unique_words
+    @unique_words ||= begin
+      total_count = @groups.values.map(&:word_counts).inject do |total, counts|
+        total.merge(counts) do |_key, o, n|
+          o + n
+        end
       end
+      median_index = [total_count.values.size * 3 / 4 - 1, 1].max
+      median_frequency = total_count.values.sort[median_index]
+      total_count.select { |_word, count| count <= median_frequency }.map(&:first)
     end
-
-    averages = {}
-    group_score_sums.each do |group, sum|
-      averages[group] = hits.positive? ? sum / hits : 0
-    end
-
-    averages
   end
 end
