@@ -3,11 +3,14 @@
 Welcome to 2021, where Ruby version 2.6 is the lowest with official support, Bundler is the default for managing packages and RSpec version 3 is used to test things.
 
 - Refactor: update Groupie to 2021 standards
-- Style: enforce symbol arrays don't use %i\[]
-- Doc: document API of Groupie
 - Feat: raise Groupie::Error instead of RuntimeError
 - Feat: deprecate String#tokenize in favor of Groupie.tokenize
+- Doc: document API of Groupie
 - Doc: update readme with examples
+- Refactor: reorder Groupie methods by importance
+- Refactor: simplify Groupie#classify
+- Refactor: reduce complexity of Groupie#unique_words
+- Refactor: simplify Groupie#classify\_text
 
 ## Version 0.3.0 -- 2010-07-29
 
@@ -15,7 +18,7 @@ Multiple changes to the 'unique words' strategy, hopefully improving the behavio
 
 - Cache unique words in an instance var to reduce time required to do subsequent lookups
 - Sanity spec
-- Unique strategy now includes all words except for the global 4th quintile
+- Unique strategy now includes all words except for the global 4th quartile
 - Unique strategy changed yet again: only ignore words that occur more than their group's median
 - Unique strategy now behaves like sqrt that only checks unique words
 - Unique word finder uses less elegant but (hopefully) faster code
@@ -68,7 +71,7 @@ The initial release as a gem, after working on this on/off over a year.
 - Support infix commas for tokenized strings
 - Allow infix dots in tokenized strings
 - Strip HTML tags when sanitizing a string
-- Classify common words based on tokenzied text from spam.la e-mails
+- Classify common words based on tokenized text from spam.la e-mails
 - Added String#tokenize
 - Ensure a Group will still work when loaded from YAML
 - Added test helper file
