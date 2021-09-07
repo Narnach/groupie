@@ -43,24 +43,12 @@ class Groupie
   # @return [Hash<Object, Float>] Hash with <group, score> pairings. Scores are always in 0.0..1.0
   # @raise [Groupie::Error] Raise when an invalid strategy is provided
   def classify_text(words, strategy = :sum)
-    hits = 0
     words &= unique_words if strategy == :unique
-    group_score_sums = words.each.with_object({}) do |word, results|
-      word_results = classify(word, strategy)
-      next results if word_results.empty?
+    group_score_sums, hits = calculate_group_scores(words, strategy)
 
-      hits += 1
-      results.merge!(word_results) do |_key, old, new|
-        old + new
-      end
-    end
-
-    averages = {}
-    group_score_sums.each do |group, sum|
+    group_score_sums.each.with_object({}) do |(group, sum), averages|
       averages[group] = hits.positive? ? sum / hits : 0
     end
-
-    averages
   end
 
   # Classify a single word against all groups.
@@ -105,6 +93,24 @@ class Groupie
   end
 
   private
+
+  # Calculate grouped scores
+  #
+  # @param [Array<String>] words
+  # @param [Symbol] strategy
+  # @return [Array<Enumerator<String>, Integer>] a Hash with <group, score> pairs and an integer with the number of hits
+  def calculate_group_scores(words, strategy)
+    hits = 0
+    group_score_sums = words.each.with_object({}) do |word, results|
+      word_results = classify(word, strategy)
+      next results if word_results.empty?
+
+      hits += 1
+      results.merge!(word_results) { |_key, old, new| old + new }
+    end
+
+    [group_score_sums, hits]
+  end
 
   # Helper function to reduce a raw word count to a strategy-modified weight.
   # @param [Integer] count
