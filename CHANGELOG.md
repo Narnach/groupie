@@ -1,5 +1,12 @@
 ## Unreleased changes
 
+## Version 0.4.1 -- 2021-09-08
+
+Non-functional fixes to the CI config and Rubygems.org metadata.
+
+- Fix: correct changelog uri for gem
+- CI: fix dependabot config
+
 ## Version 0.4.0 -- 2021-09-07
 
 Welcome to 2021, where Ruby version 2.6 is the lowest with official support, Bundler is the default for managing packages and RSpec version 3 is used to test things. This version updates Groupie into this decade.
