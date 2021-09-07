@@ -1,2 +1,2 @@
 #!/bin/bash
-bundle exec rubocop --fail-level convention --force-exclusion $*
+bundle exec rubocop --force-exclusion $*

@@ -21,9 +21,6 @@ jobs:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
           rubocop_version: gemfile
-          # This allows info and refactor offences to not cause failures,
-          # as is intended until the codebase is fully refactored.
-          rubocop_flags: --fail-level convention --display-only-fail-level-offenses
           # Rely on Bundler-installed gems so don't install them again
           use_bundler: true
           skip_install: true

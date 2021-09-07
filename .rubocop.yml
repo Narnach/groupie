@@ -36,15 +36,3 @@ RSpec/ExampleLength:
 # For strings I enjoy using %w[], but for symbols the %i[] syntax just does not click.
 Style/SymbolArray:
   EnforcedStyle: brackets
-
-# These are left to be done later, so they have a severity of refactor
-Style/Documentation:
-  Severity: refactor
-Metrics/AbcSize:
-  Severity: refactor
-Metrics/CyclomaticComplexity:
-  Severity: refactor
-Metrics/PerceivedComplexity:
-  Severity: refactor
-Metrics/MethodLength:
-  Severity: refactor
