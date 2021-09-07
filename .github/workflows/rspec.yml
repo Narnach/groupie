@@ -1,0 +1,21 @@
+name: RSpec
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Maintained versions: 2.7 and 3.0
+        # Security updates only: 2.6
+        ruby: [ 2.6, 2.7, 3.0 ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run the tests
+        run: bundle exec rspec

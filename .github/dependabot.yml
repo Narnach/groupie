@@ -1,0 +1,21 @@
+# https://docs.github.com/en/github/administering-a-repository/keeping-your-dependencies-updated-automatically
+# There's a lot of options, but for now let's keep it simple.
+# Check every week (Monday 5:00 CET by default) for updates.
+# Each package manager gets 5 non-security updates by default.
+# Security updates bypass most configuration here and show up when found.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    # Github Actions are checked for updates
+    directory: '/'
+    schedule:
+      interval: weekly
+  - package-ecosystem: bundler
+    # Bundler handles Ruby dependencies
+    directory: '/'
+    schedule:
+      interval: weekly
+    versioning-strategy: widen
+    allow:
+      - dependency-type: direct
+      - dependency-type: indirect

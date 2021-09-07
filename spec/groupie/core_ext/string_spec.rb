@@ -1,37 +1,19 @@
-require File.join(File.dirname(__FILE__), %w[.. .. spec_helper])
+# frozen_string_literal: false
 
-describe String do
-  context "tokenize" do
-    it 'should split words' do
-      "hello world".tokenize.should == %w[hello world]
-    end
+require 'spec_helper'
 
-    it 'should downcase words' do
-      "Hello World".tokenize.should == %w[hello world]
-    end
-
-    it 'should strip special characters' do
-      "blah, bla!".tokenize.should == %w[blah bla]
+RSpec.describe String do
+  describe '#tokenize' do
+    it 'warns that it is deprecated' do
+      string = 'test'
+      allow(string).to receive(:warn)
+      string.tokenize
     end
 
-    it 'should prserve infix hyphens and underscores' do
-      "hyphen-ated under_score".tokenize.should == %w[hyphen-ated under_score]
-    end
-
-    it 'should sanitize html tags' do
-      '<a href="http://example.org">example</a>'.tokenize.should == %w[example]
-    end
-
-    it 'should preserve infix periods' do
-      'example.org rocks. read it...'.tokenize.should == %w[example.org rocks read it]
-    end
-    
-    it "should preserve infix commas" do
-      '$1,000,000.00 or $1.000.000,00'.tokenize.should == %w[1,000,000.00 or 1.000.000,00]
-    end
-    
-    it "should strip quotes around tokens" do
-      '"first last"'.tokenize.should == %w[first last]
+    it 'delegates to Groupie.tokenize' do
+      string = 'test'
+      allow(Groupie).to receive(:tokenize).with(string)
+      string.tokenize
     end
   end
 end
