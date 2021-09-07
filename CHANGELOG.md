@@ -3,6 +3,11 @@
 Welcome to 2021, where Ruby version 2.6 is the lowest with official support, Bundler is the default for managing packages and RSpec version 3 is used to test things.
 
 - Refactor: update Groupie to 2021 standards
+- Style: enforce symbol arrays don't use %i\[]
+- Doc: document API of Groupie
+- Feat: raise Groupie::Error instead of RuntimeError
+- Feat: deprecate String#tokenize in favor of Groupie.tokenize
+- Doc: update readme with examples
 
 ## Version 0.3.0 -- 2010-07-29
 
