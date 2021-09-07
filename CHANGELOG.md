@@ -1,6 +1,8 @@
 ## Unreleased changes
 
-Welcome to 2021, where Ruby version 2.6 is the lowest with official support, Bundler is the default for managing packages and RSpec version 3 is used to test things.
+## Version 0.4.0 -- 2021-09-07
+
+Welcome to 2021, where Ruby version 2.6 is the lowest with official support, Bundler is the default for managing packages and RSpec version 3 is used to test things. This version updates Groupie into this decade.
 
 - Refactor: update Groupie to 2021 standards
 - Feat: raise Groupie::Error instead of RuntimeError
