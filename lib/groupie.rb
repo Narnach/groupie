@@ -46,6 +46,7 @@ class Groupie
   # @param [String] entry A word to be classified
   # @param [Symbol] strategy
   # @return [Hash<Object, Float>] Hash with <group, score> pairings. Scores are always in 0.0..1.0
+  # @raise [Groupie::Error] Raise when an invalid strategy is provided
   def classify(entry, strategy = :sum)
     results = {}
     total_count = @groups.inject(0) do |sum, name_group|
@@ -59,7 +60,7 @@ class Groupie
       when :log
         sum += Math.log10(count) if count.positive?
       else
-        raise "Invalid strategy: #{strategy}"
+        raise Error, "Invalid strategy: #{strategy}"
       end
       next sum
     end
@@ -75,7 +76,7 @@ class Groupie
       when :log
         count = Math.log10(count) if count.positive?
       else
-        raise "Invalid strategy: #{strategy}"
+        raise Error, "Invalid strategy: #{strategy}"
       end
       results[name] = count.positive? ? count.to_f / total_count : 0.0
     end
@@ -88,6 +89,7 @@ class Groupie
   # @param [Array<String>] words List of words to be classified
   # @param [Symbol] strategy
   # @return [Hash<Object, Float>] Hash with <group, score> pairings. Scores are always in 0.0..1.0
+  # @raise [Groupie::Error] Raise when an invalid strategy is provided
   def classify_text(words, strategy = :sum)
     hits = 0
     words &= unique_words if strategy == :unique

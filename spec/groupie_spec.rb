@@ -89,6 +89,14 @@ RSpec.describe Groupie do
           g.classify('flowers', :unique).should eq(g.classify('flowers', :sqrt))
         end
       end
+
+      it 'raises an error when a nonexistant strategy is given' do
+        g = Groupie.new
+        g[:test].add %w[test]
+        expect do
+          g.classify('test', :imaginary)
+        end.to raise_error(Groupie::Error, 'Invalid strategy: imaginary')
+      end
     end
   end
 
@@ -164,6 +172,14 @@ RSpec.describe Groupie do
       g[:spam].add %w[one two two three three three four four four four]
       g[:ham].add %w[apple banana pear]
       g.classify_text(%w[one two three apple banana], :unique).should eq({ spam: 0.5, ham: 0.5 })
+    end
+
+    it 'raises an error when a nonexistant strategy is given' do
+      g = Groupie.new
+      g[:test].add %w[test]
+      expect do
+        g.classify_text(%w[test], :imaginary)
+      end.to raise_error(Groupie::Error, 'Invalid strategy: imaginary')
     end
   end
 end
