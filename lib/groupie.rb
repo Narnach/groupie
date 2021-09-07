@@ -6,16 +6,28 @@ require_relative 'groupie/core_ext/string'
 
 # Groupie is a text grouper and classifier, using naive Bayesian filtering.
 class Groupie
+  # Wrap all errors we raise in this so our own errors are recognizable.
   class Error < StandardError; end
 
   def initialize
     @groups = {}
   end
 
+  # Access an existing Group or create a new one.
+  #
+  # @param [Object] group The name of the group to access.
+  # @return [Groupie::Group] An existing or new group identified by +group+.
   def [](group)
     @groups[group] ||= Group.new(group)
   end
 
+  # Return a word score dictionary that excludes the 4th quartile most popular words.
+  # Why do this? So the most common (and thus meaningless) words are ignored
+  # and less common words gain more predictive power.
+  #
+  # This is used by the :unique strategy of the classifier.
+  #
+  # @return [Hash<String, Integer>]
   def unique_words
     @unique_words ||= begin
       total_count = @groups.values.map(&:word_counts).inject do |total, counts|
@@ -29,6 +41,11 @@ class Groupie
     end
   end
 
+  # Classify a single word against all groups.
+  #
+  # @param [String] entry A word to be classified
+  # @param [Symbol] strategy
+  # @return [Hash<Object, Float>] Hash with <group, score> pairings. Scores are always in 0.0..1.0
   def classify(entry, strategy = :sum)
     results = {}
     total_count = @groups.inject(0) do |sum, name_group|
@@ -67,6 +84,10 @@ class Groupie
   end
 
   # Classify a text by taking the average of all word classifications.
+  #
+  # @param [Array<String>] words List of words to be classified
+  # @param [Symbol] strategy
+  # @return [Hash<Object, Float>] Hash with <group, score> pairings. Scores are always in 0.0..1.0
   def classify_text(words, strategy = :sum)
     hits = 0
     words &= unique_words if strategy == :unique
