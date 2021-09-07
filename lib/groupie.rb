@@ -45,12 +45,12 @@ class Groupie
   def classify_text(words, strategy = :sum)
     hits = 0
     words &= unique_words if strategy == :unique
-    group_score_sums = words.inject({}) do |results, word|
+    group_score_sums = words.each.with_object({}) do |word, results|
       word_results = classify(word, strategy)
       next results if word_results.empty?
 
       hits += 1
-      results.merge(word_results) do |_key, old, new|
+      results.merge!(word_results) do |_key, old, new|
         old + new
       end
     end
@@ -71,35 +71,13 @@ class Groupie
   # @raise [Groupie::Error] Raise when an invalid strategy is provided
   def classify(entry, strategy = :sum)
     results = {}
-    total_count = @groups.inject(0) do |sum, name_group|
-      group = name_group.last
-      count = group.count(entry)
-      case strategy
-      when :sum
-        sum += count
-      when :sqrt, :unique
-        sum += Math.sqrt(count)
-      when :log
-        sum += Math.log10(count) if count.positive?
-      else
-        raise Error, "Invalid strategy: #{strategy}"
-      end
-      next sum
+    total_count = @groups.values.inject(0) do |sum, group|
+      sum + apply_count_strategy(group.count(entry), strategy)
     end
     return results if total_count.zero?
 
     @groups.each do |name, group|
-      count = group.count(entry)
-      case strategy
-      when :sum
-        # keep count
-      when :sqrt, :unique
-        count = Math.sqrt(count)
-      when :log
-        count = Math.log10(count) if count.positive?
-      else
-        raise Error, "Invalid strategy: #{strategy}"
-      end
+      count = apply_count_strategy(group.count(entry), strategy)
       results[name] = count.positive? ? count.to_f / total_count : 0.0
     end
 
@@ -124,5 +102,26 @@ class Groupie
       median_frequency = total_count.values.sort[median_index]
       total_count.select { |_word, count| count <= median_frequency }.map(&:first)
     end
+  end
+
+  private
+
+  # Helper function to reduce a raw word count to a strategy-modified weight.
+  # @param [Integer] count
+  # @param [Symbol] strategy
+  # @return [Integer, Float]
+  # @raise [Groupie::Error] Raise when an invalid strategy is provided
+  def apply_count_strategy(count, strategy)
+    case strategy
+    when :sum
+      # keep count
+    when :sqrt, :unique
+      count = Math.sqrt(count)
+    when :log
+      count = Math.log10(count) if count.positive?
+    else
+      raise Error, "Invalid strategy: #{strategy}"
+    end
+    count
   end
 end
