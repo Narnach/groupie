@@ -1,0 +1,29 @@
+name: Code Quality
+on: [ pull_request ]
+jobs:
+  rubocop:
+    name: Rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Install Ruby & Gems
+        uses: ruby/setup-ruby@v1 # Uses .ruby-version as version input
+        with:
+          ruby-version: 3.0
+          bundler-cache: true
+      - name: Rubocop
+        # https://github.com/reviewdog/action-rubocop
+        uses: reviewdog/action-rubocop@v2
+        with:
+          fail_on_error: true
+          filter_mode: nofilter
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          rubocop_version: gemfile
+          # This allows info and refactor offences to not cause failures,
+          # as is intended until the codebase is fully refactored.
+          rubocop_flags: --fail-level convention --display-only-fail-level-offenses
+          # Rely on Bundler-installed gems so don't install them again
+          use_bundler: true
+          skip_install: true

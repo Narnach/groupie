@@ -1,0 +1,46 @@
+require:
+  - rubocop-rspec
+  - rubocop-rake
+  - rubocop-performance
+
+AllCops:
+  # We bump the version to get new cops, so enable them by default
+  NewCops: enable
+
+# Two lines should fit next to each other in split view on a widescreen
+Layout/LineLength:
+  Max: 120
+
+# We still have old-style rspec checks, so this triggers on functional comparisons there
+Lint/Void:
+  Exclude:
+    - 'spec/**/*_spec.rb'
+
+# RSpec has a lot of blocks, so ignore this rule there
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*_spec.rb'
+
+# I prefer to see the class name over "described_class"
+RSpec/DescribedClass:
+  EnforcedStyle: explicit
+
+# I prefer groups for structure, so the defaults are a little too strict for me
+RSpec/NestedGroups:
+  Max: 4
+
+# I prefer more verbose examples, so tend to use more lines than the defaults
+RSpec/ExampleLength:
+  Max: 20
+
+# These are left to be done later, so they have a severity of refactor
+Style/Documentation:
+  Severity: refactor
+Metrics/AbcSize:
+  Severity: refactor
+Metrics/CyclomaticComplexity:
+  Severity: refactor
+Metrics/PerceivedComplexity:
+  Severity: refactor
+Metrics/MethodLength:
+  Severity: refactor

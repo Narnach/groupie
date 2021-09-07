@@ -1,36 +1,38 @@
-require File.join(File.dirname(__FILE__), %w[.. .. spec_helper])
+# frozen_string_literal: true
 
-describe String do
-  context "tokenize" do
-    it 'should split words' do
-      "hello world".tokenize.should == %w[hello world]
+require 'spec_helper'
+
+RSpec.describe String do
+  describe '#tokenize' do
+    it 'splits words' do
+      'hello world'.tokenize.should == %w[hello world]
     end
 
-    it 'should downcase words' do
-      "Hello World".tokenize.should == %w[hello world]
+    it 'downcases words' do
+      'Hello World'.tokenize.should == %w[hello world]
     end
 
-    it 'should strip special characters' do
-      "blah, bla!".tokenize.should == %w[blah bla]
+    it 'strips special characters' do
+      'blah, bla!'.tokenize.should == %w[blah bla]
     end
 
-    it 'should prserve infix hyphens and underscores' do
-      "hyphen-ated under_score".tokenize.should == %w[hyphen-ated under_score]
+    it 'prserves infix hyphens and underscores' do
+      'hyphen-ated under_score'.tokenize.should == %w[hyphen-ated under_score]
     end
 
-    it 'should sanitize html tags' do
+    it 'sanitizes html tags' do
       '<a href="http://example.org">example</a>'.tokenize.should == %w[example]
     end
 
-    it 'should preserve infix periods' do
+    it 'preserves infix periods' do
       'example.org rocks. read it...'.tokenize.should == %w[example.org rocks read it]
     end
-    
-    it "should preserve infix commas" do
+
+    it 'preserves infix commas' do
       '$1,000,000.00 or $1.000.000,00'.tokenize.should == %w[1,000,000.00 or 1.000.000,00]
     end
-    
-    it "should strip quotes around tokens" do
+
+    it 'strips quotes around tokens' do
       '"first last"'.tokenize.should == %w[first last]
     end
   end
