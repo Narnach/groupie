@@ -5,11 +5,8 @@ class Groupie
     # This module monkey patches String to respond to #tokenize
     module String
       def tokenize
-        downcase
-          .gsub(/\s/, ' ')
-          .gsub(/[$']/, '')
-          .gsub(/<[^>]+?>|[^\w -.,]/, '')
-          .split.map { |str| str.gsub(/\A['"]+|[!,."']+\Z/, '') }
+        warn "Please use Groupie.tokenize instead of String#tokenize (from #{caller(1..1).first})"
+        Groupie.tokenize(self)
       end
     end
   end

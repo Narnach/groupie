@@ -13,6 +13,21 @@ class Groupie
     @groups = {}
   end
 
+  # Turn a String (or anything else that responds to #to_s) into an Array of String tokens.
+  # This attempts to remove most common punctuation marks and types of whitespace.
+  #
+  # @param [String, #to_s] object
+  # @return [Array<String>]
+  def self.tokenize(object)
+    object
+      .to_s
+      .downcase
+      .gsub(/\s/, ' ')
+      .gsub(/[$']/, '')
+      .gsub(/<[^>]+?>|[^\w -.,]/, '')
+      .split.map { |str| str.gsub(/\A['"]+|[!,."']+\Z/, '') }
+  end
+
   # Access an existing Group or create a new one.
   #
   # @param [Object] group The name of the group to access.

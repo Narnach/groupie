@@ -43,9 +43,9 @@ RSpec.describe Groupie do
       email2 = File.read(File.join(File.dirname(__FILE__), %w[fixtures spam email_spam2.txt]))
       email3 = File.read(File.join(File.dirname(__FILE__), %w[fixtures ham email_ham1.txt]))
       g = Groupie.new
-      g[:spam].add email.tokenize
-      g[:spam].add email2.tokenize
-      g[:ham].add email3.tokenize
+      g[:spam].add Groupie.tokenize(email)
+      g[:spam].add Groupie.tokenize(email2)
+      g[:ham].add Groupie.tokenize(email3)
       c = g.classify('discreetly')
       c[:spam].should > c[:ham]
       c2 = g.classify('user')
@@ -119,8 +119,12 @@ RSpec.describe Groupie do
   describe '#classify_text' do
     it 'tokenizes html emails' do
       g = Groupie.new
-      spam_tokens = File.read(File.join(File.dirname(__FILE__), %w[fixtures spam spam.la-44118014.txt])).tokenize
-      ham_tokens = File.read(File.join(File.dirname(__FILE__), %w[fixtures ham spam.la-44116217.txt])).tokenize
+      spam_tokens = Groupie.tokenize(
+        File.read(File.join(File.dirname(__FILE__), %w[fixtures spam spam.la-44118014.txt]))
+      )
+      ham_tokens = Groupie.tokenize(
+        File.read(File.join(File.dirname(__FILE__), %w[fixtures ham spam.la-44116217.txt]))
+      )
       g[:spam].add spam_tokens
       g[:ham].add ham_tokens
 
@@ -136,9 +140,9 @@ RSpec.describe Groupie do
       g[:spam].add %w[buy viagra now to grow fast]
       g[:spam].add %w[buy cialis on our website]
       g[:ham].add %w[buy flowers for your mom]
-      result = g.classify_text 'Grow flowers to sell on our website'.tokenize
+      result = g.classify_text Groupie.tokenize('Grow flowers to sell on our website')
       result[:spam].should > result[:ham]
-      result2 = g.classify_text 'Grow flowers to give to your mom'.tokenize
+      result2 = g.classify_text Groupie.tokenize('Grow flowers to give to your mom')
       result2[:ham].should eq(result2[:spam])
     end
 
@@ -180,6 +184,40 @@ RSpec.describe Groupie do
       expect do
         g.classify_text(%w[test], :imaginary)
       end.to raise_error(Groupie::Error, 'Invalid strategy: imaginary')
+    end
+  end
+
+  describe '.tokenize' do
+    it 'splits words' do
+      Groupie.tokenize('hello world').should == %w[hello world]
+    end
+
+    it 'downcases words' do
+      Groupie.tokenize('Hello World').should == %w[hello world]
+    end
+
+    it 'strips special characters' do
+      Groupie.tokenize('blah, bla!').should == %w[blah bla]
+    end
+
+    it 'prserves infix hyphens and underscores' do
+      Groupie.tokenize('hyphen-ated under_score').should == %w[hyphen-ated under_score]
+    end
+
+    it 'sanitizes html tags' do
+      Groupie.tokenize('<a href="http://example.org">example</a>').should == %w[example]
+    end
+
+    it 'preserves infix periods' do
+      Groupie.tokenize('example.org rocks. read it...').should == %w[example.org rocks read it]
+    end
+
+    it 'preserves infix commas' do
+      Groupie.tokenize('$1,000,000.00 or $1.000.000,00').should == %w[1,000,000.00 or 1.000.000,00]
+    end
+
+    it 'strips quotes around tokens' do
+      Groupie.tokenize('"first last"').should == %w[first last]
     end
   end
 end
