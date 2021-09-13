@@ -1,5 +1,7 @@
 ## Unreleased changes
 
+- Bump rubocop from 1.20.0 to 1.21.0
+
 ## Version 0.4.1 -- 2021-09-08
 
 Non-functional fixes to the CI config and Rubygems.org metadata.
