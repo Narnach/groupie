@@ -85,7 +85,7 @@ class Groupie
       total.merge!(group.word_counts) { |_key, o, n| o + n }
     end
     # Extract the word count that's at the top 75%
-    top_quartile_index = [total_count.size * 3 / 4 - 1, 1].max
+    top_quartile_index = [((total_count.size * 3) / 4) - 1, 1].max
     top_quartile_frequency = total_count.values.sort[top_quartile_index]
     # Throw out all words which have a count that's above this frequency
     total_count.reject! { |_word, count| count > top_quartile_frequency }
