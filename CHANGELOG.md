@@ -1,7 +1,9 @@
 ## Unreleased changes
 
-- Bump rubocop from 1.20.0 to 1.21.0
+- Deps: add Ruby 3.1 to list of tested & supported gems
+- Chore: require multi-factor authentication to publish gem updates
 - Style: addressed Lint/AmbiguousOperatorPrecedence
+- Dev: bump development dependencies multiple times
 
 ## Version 0.4.1 -- 2021-09-08
 
