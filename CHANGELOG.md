@@ -2,6 +2,7 @@
 
 - Deps: add Ruby 3.1 to list of tested & supported gems
 - Chore: require multi-factor authentication to publish gem updates
+- Chore: add Security.md to advertise a security policy
 - Style: addressed Lint/AmbiguousOperatorPrecedence
 - Dev: bump development dependencies multiple times
 
