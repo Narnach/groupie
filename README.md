@@ -1,5 +1,7 @@
 # Groupie
 
+[![Depfu](https://badges.depfu.com/badges/367956233b3b31a6fc19db4515263b9e/overview.svg)](https://depfu.com/github/Narnach/groupie?project_id=34004)
+
 Groupie is a simple way to group texts and classify new texts as being a likely member of one of the defined groups. Think of bayesian spam filters.
 
 The eventual goal is to have Groupie work as a sort of bayesian spam filter, where you feed it spam and ham (non-spam) and ask it to classify new texts as spam or ham. Applications for this are e-mail spam filtering and blog spam filtering. Other sorts of categorizing might be interesting as well, such as finding suitable tags for a blog post or bookmark.

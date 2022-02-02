@@ -4,6 +4,7 @@
 - Chore: require multi-factor authentication to publish gem updates
 - Style: addressed Lint/AmbiguousOperatorPrecedence
 - Dev: bump development dependencies multiple times
+- Dev: switch to DepFu to manage development dependencies
 
 ## Version 0.4.1 -- 2021-09-08
 

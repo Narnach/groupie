@@ -3,6 +3,7 @@
 # Check every week (Monday 5:00 CET by default) for updates.
 # Each package manager gets 5 non-security updates by default.
 # Security updates bypass most configuration here and show up when found.
+# We rely on DepFu for Ruby and Gem updates
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -10,12 +11,3 @@ updates:
     directory: '/'
     schedule:
       interval: weekly
-  - package-ecosystem: bundler
-    # Bundler handles Ruby dependencies
-    directory: '/'
-    schedule:
-      interval: weekly
-    versioning-strategy: increase-if-necessary
-    allow:
-      - dependency-type: direct
-      - dependency-type: indirect
