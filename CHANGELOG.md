@@ -5,6 +5,7 @@
 - Chore: add Security.md to advertise a security policy
 - Style: addressed Lint/AmbiguousOperatorPrecedence
 - Dev: bump development dependencies multiple times
+- Dev: switch to DepFu to manage development dependencies
 
 ## Version 0.4.1 -- 2021-09-08
 
