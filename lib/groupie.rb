@@ -2,7 +2,6 @@
 
 require_relative 'groupie/version'
 require_relative 'groupie/group'
-require_relative 'groupie/core_ext/string'
 
 # Groupie is a text grouper and classifier, using naive Bayesian filtering.
 class Groupie
