@@ -273,9 +273,9 @@ RSpec.describe Groupie do
         # - new should get 1/2 in each group
         # - one should get 2/3 in group one, and 1/3 in group two
         expect(groupie.classify_text(%w[new one])).to eq({
-                                                           one: ((2 / 3.0) + (1 / 2.0)) / 2.0,
-                                                           two: ((1 / 3.0) + (1 / 2.0)) / 2.0
-                                                         })
+          one: ((2 / 3.0) + (1 / 2.0)) / 2.0,
+          two: ((1 / 3.0) + (1 / 2.0)) / 2.0
+        })
       end
     end
   end

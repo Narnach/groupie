@@ -36,3 +36,18 @@ RSpec/ExampleLength:
 # For strings I enjoy using %w[], but for symbols the %i[] syntax just does not click.
 Style/SymbolArray:
   EnforcedStyle: brackets
+
+# Indentation is something I've got strong opinions about which differ from Rubocop.
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation # default is with_first_argument
+Layout/ArrayAlignment:
+  EnforcedStyle: with_fixed_indentation # default is with_first_element
+Layout/FirstArgumentIndentation:
+  EnforcedStyle: consistent # default is special_for_inner_method_call_in_parentheses
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent # default is special_inside_parentheses
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent # default is special_inside_parentheses
+# Let's enforce this to be consistent
+Layout/EndOfLine:
+  EnforcedStyle: lf # \n (unix line end) enforced everywhere, default is native
