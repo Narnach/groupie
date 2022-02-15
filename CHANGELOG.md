@@ -1,5 +1,8 @@
 ## Unreleased changes
 
+The next release will be 0.5.0 due to a breaking change: removal of code that was deprecated in 0.4.0.
+
+- Breaking: remove `String#tokenize` core extension; please use `Groupie.tokenize(string)` instead
 - Deps: add Ruby 3.1 to list of tested & supported gems
 - Chore: require multi-factor authentication to publish gem updates
 - Chore: add Security.md to advertise a security policy
