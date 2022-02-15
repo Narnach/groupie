@@ -92,6 +92,21 @@ groupie.classify_text(test_tokens, :unique)
 test_tokens - (test_tokens & groupie.unique_words)
 # => ["please", "to", "reset", "awesome"]
 # If you'd be classifying email, you can assume that common email headers will get ignored this way.
+
+# If you're just starting out, your incomplete data could lead to dramatic misrepresentations of the data.
+# To balance against this, you can enable smart weight:
+groupie.smart_weight = true
+# You could also set it during initialization via Groupie.new(smart_weight: true)
+# What's so useful about it? It adds a default weight to _all_ words, even the ones you haven't
+# seen yet, which counter-acts the data you have. This shines in low data situations,
+# reducing the impact of the few words you have seen before.
+groupie.default_weight
+# => 1.2285714285714286
+# Classifying the same text as before should consider all words, and add this default weight to all words
+# It basically gives all groups the likelihood of "claiming" a word,
+# unless there is strong data to suggest otherwise.
+groupie.classify_text(test_tokens)
+# => {:spam=>0.5241046831955923, :ham=>0.4758953168044077}
 ```
 
 Persistence can be naively done by using YAML:
@@ -112,7 +127,9 @@ For I'm still experimenting with Groupie in [Infinity Feed](https://www.infinity
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment. Rubocop is available via `bin/rubocop` with some friendly default settings.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`.
+
+To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org). For obvious reasons, only the project maintainer can do this.
 
 ## Contributing
 

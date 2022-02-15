@@ -2,14 +2,19 @@
 
 require_relative 'groupie/version'
 require_relative 'groupie/group'
+require 'set'
 
 # Groupie is a text grouper and classifier, using naive Bayesian filtering.
 class Groupie
   # Wrap all errors we raise in this so our own errors are recognizable.
   class Error < StandardError; end
 
-  def initialize
+  attr_accessor :smart_weight
+
+  # @param [true, false] smart_weight (false) Whether smart weight is enabled or not.
+  def initialize(smart_weight: false)
     @groups = {}
+    @smart_weight = smart_weight
   end
 
   # Turn a String (or anything else that responds to #to_s) into an Array of String tokens.
@@ -58,13 +63,14 @@ class Groupie
   # @raise [Groupie::Error] Raise when an invalid strategy is provided
   def classify(entry, strategy = :sum)
     results = {}
+    default_weight = self.default_weight
     total_count = @groups.values.inject(0) do |sum, group|
-      sum + apply_count_strategy(group.count(entry), strategy)
+      sum + apply_count_strategy(default_weight + group.count(entry), strategy)
     end
     return results if total_count.zero?
 
     @groups.each do |name, group|
-      count = apply_count_strategy(group.count(entry), strategy)
+      count = apply_count_strategy(default_weight + group.count(entry), strategy)
       results[name] = count.positive? ? count.to_f / total_count : 0.0
     end
 
@@ -89,6 +95,32 @@ class Groupie
     # Throw out all words which have a count that's above this frequency
     total_count.reject! { |_word, count| count > top_quartile_frequency }
     total_count.keys
+  end
+
+  # Default weight is used when +smart_weight+ is enabled.
+  # Each word's count is increased by the +default_weight+ value,
+  # which is the average frequency of each unique word we know about.
+  #
+  # Example: if we have indexed 1000 total words, of which 500 were unique,
+  #   the default_weight would be 1000/500=2.0
+  #
+  # @return [Float] The default weight for all words
+  def default_weight
+    return 0.0 unless smart_weight
+
+    # Find all unique words and the total count of all words
+    total_words = 0
+    unique_words = Set.new
+    @groups.each_value do |group|
+      group.word_counts.each do |word, count|
+        unique_words << word
+        total_words += count
+      end
+    end
+    total_unique_words = unique_words.count
+    return 0.0 unless total_unique_words.positive?
+
+    total_words / total_unique_words.to_f
   end
 
   private
