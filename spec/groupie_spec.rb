@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'yaml'
 
 RSpec.describe Groupie do
   it 'has a version' do
@@ -278,5 +279,15 @@ RSpec.describe Groupie do
         })
       end
     end
+  end
+
+  it 'can be serialized and loaded through YAML' do
+    groupie = Groupie.new
+    groupie['one'].add %w[buy flowers]
+    groupie['two'].add %w[buy roses]
+
+    loaded = YAML.unsafe_load(YAML.dump(groupie))
+
+    expect(loaded.classify_text(%w[buy candy])).to eq(groupie.classify_text(%w[buy candy]))
   end
 end

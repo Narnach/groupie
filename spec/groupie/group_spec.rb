@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'yaml'
 
 RSpec.describe Groupie::Group do
   let(:group) { Groupie::Group.new('test') }
@@ -25,13 +24,5 @@ RSpec.describe Groupie::Group do
     it 'is aliased as <<' do
       group.method(:add).should == group.method(:<<)
     end
-  end
-
-  it 'can be serialized and loaded through YAML' do
-    group = Groupie::Group.new 'group'
-    group.add %w[buy flowers]
-    loaded_group = YAML.safe_load(group.to_yaml, permitted_classes: [Groupie::Group])
-    loaded_group.add %w[buy candy]
-    loaded_group.count('candy').should == 1
   end
 end
