@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'psych'
 
 RSpec.describe Groupie do
   it 'has a version' do
@@ -219,5 +220,76 @@ RSpec.describe Groupie do
     it 'strips quotes around tokens' do
       Groupie.tokenize('"first last"').should == %w[first last]
     end
+  end
+
+  describe 'when smart_weight is enabled' do
+    let(:groupie) { Groupie.new smart_weight: true }
+
+    describe '#default_weight' do
+      it 'returns 0.0 by default' do
+        expect(groupie.default_weight).to eq(0.0)
+      end
+
+      it 'returns the average frequency of unique words' do
+        groupie[:one].add %w[test test groupie]
+        # 3 words / 2 unique words = 1.5
+        expect(groupie.default_weight).to eq(1.5)
+      end
+
+      it 'combines the results from all groups' do
+        groupie[:one].add %w[test test]
+        groupie[:two].add %w[test two]
+        # 4 total occurrences divided by 2 unique words
+        expect(groupie.default_weight).to eq(2.0)
+      end
+    end
+
+    describe '#classify' do
+      it 'gives new words equal weighting across groups' do
+        groupie[:one].add %w[one]
+        groupie[:two].add %w[two]
+        expect(groupie.classify('new')).to eq({ one: 0.5, two: 0.5 })
+      end
+
+      it 'adds default_weight to all word counts prior to applying the strategy' do
+        groupie[:one].add %w[one]
+        groupie[:two].add %w[two]
+        # sum strategy adds the word count to the default weight (1) and divides by the total weight (3)
+        expect(groupie.classify('one')).to eq({ one: 2 / 3.0, two: 1 / 3.0 })
+      end
+    end
+
+    describe '#classify_text' do
+      it 'gives new words equal weighting across groups' do
+        groupie[:one].add %w[one]
+        groupie[:two].add %w[two]
+        # Classify text with one word is basically a less efficient classify()
+        expect(groupie.classify_text(%w[new])).to eq({ one: 0.5, two: 0.5 })
+      end
+
+      it 'adds default_weight to all word counts prior to applying the strategy' do
+        groupie[:one].add %w[one]
+        groupie[:two].add %w[two]
+        # Sum strategy for each word, and then we average the results for each group
+        # - new should get 1/2 in each group
+        # - one should get 2/3 in group one, and 1/3 in group two
+        expect(groupie.classify_text(%w[new one])).to eq({
+          one: ((2 / 3.0) + (1 / 2.0)) / 2.0,
+          two: ((1 / 3.0) + (1 / 2.0)) / 2.0
+        })
+      end
+    end
+  end
+
+  it 'can be serialized and loaded through YAML' do
+    groupie = Groupie.new
+    groupie['one'].add %w[buy flowers]
+    groupie['two'].add %w[buy roses]
+
+    # Use Psych via a Gem to have a consistent library interface vs older versions in older Ruby versions
+    yaml = Psych.dump(groupie)
+    loaded = Psych.safe_load(yaml, aliases: true, permitted_classes: [Groupie, Groupie::Group, Set])
+
+    expect(loaded.classify_text(%w[buy candy])).to eq(groupie.classify_text(%w[buy candy]))
   end
 end

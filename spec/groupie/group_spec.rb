@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'yaml'
 
 RSpec.describe Groupie::Group do
-  let(:group) { Groupie::Group.new('test') }
+  let(:groupie) { Groupie.new }
+  let(:group) { Groupie::Group.new('test', groupie) }
 
   describe '#add' do
     it 'accepts a single string' do
@@ -25,13 +25,11 @@ RSpec.describe Groupie::Group do
     it 'is aliased as <<' do
       group.method(:add).should == group.method(:<<)
     end
-  end
 
-  it 'can be serialized and loaded through YAML' do
-    group = Groupie::Group.new 'group'
-    group.add %w[buy flowers]
-    loaded_group = YAML.safe_load(group.to_yaml, permitted_classes: [Groupie::Group])
-    loaded_group.add %w[buy candy]
-    loaded_group.count('candy').should == 1
+    it 'increases total_word_count by the number of words' do
+      expect do
+        group.add(%w[one two three])
+      end.to change(group, :total_word_count).from(0).to(3)
+    end
   end
 end
