@@ -15,6 +15,7 @@ class Groupie
   def initialize(smart_weight: false)
     @groups = {}
     @smart_weight = smart_weight
+    @known_words = Set.new
   end
 
   # Turn a String (or anything else that responds to #to_s) into an Array of String tokens.
@@ -110,15 +111,18 @@ class Groupie
 
     # Find all unique words and the total count of all words
     total_words = 0
-    unique_words = Set.new
     @groups.each_value do |group|
-      unique_words += group.words
       total_words += group.total_word_count
     end
-    total_unique_words = unique_words.count
+    total_unique_words = @known_words.count
     return 0.0 unless total_unique_words.positive?
 
     total_words / total_unique_words.to_f
+  end
+
+  # Private method used by Groups to register known words with the Group.
+  def add_word(word)
+    @known_words << word
   end
 
   private

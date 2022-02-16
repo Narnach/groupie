@@ -36,8 +36,11 @@ class Groupie
     # Add a single word and count it.
     def add_word(word)
       @word_counts[word] ||= 0
-      @word_counts[word] += 1
+      current_count = @word_counts[word] += 1
       @total_word_count += 1
+      # If this word is new for this Group, it might be new for the entire Groupie
+      @groupie.add_word(word) if current_count == 1
+      nil
     end
   end
 end
