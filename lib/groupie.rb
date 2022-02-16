@@ -56,26 +56,27 @@ class Groupie
     end
   end
 
-  # Classify a single word against all groups.
+  # Classify a single word against all groups, returning the probability distribution.
   #
   # @param [String] entry A word to be classified
-  # @param [Symbol] strategy
-  # @return [Hash<Object, Float>] Hash with <group, score> pairings. Scores are always in 0.0..1.0
+  # @param [Symbol] strategy (:sum) the strategy to use on the score
+  # @return [Hash<Object, Float>] Hash with <group, probability> pairings.
+  #   Probabilities are always in 0.0..1.0, and add up to 1.0 (i.e. it's a probability distribution)
   # @raise [Groupie::Error] Raise when an invalid strategy is provided
   def classify(entry, strategy = :sum)
-    results = {}
+    # Calculate default weight once outside of the loop
     default_weight = self.default_weight
-    total_count = @groups.values.inject(0) do |sum, group|
-      sum + apply_count_strategy(default_weight + group.count(entry), strategy)
+    # Each group calculates the count, then reduces it to a score: <group name, score>
+    per_group_score = @groups.transform_values do |group|
+      apply_count_strategy(default_weight + group.count(entry), strategy)
     end
-    return results if total_count.zero?
+    # When we have no scores, we have no results, so abort early
+    # Note that when smart_weight is enabled we always have a score.
+    total_score = per_group_score.values.sum
+    return {} if total_score.zero?
 
-    @groups.each do |name, group|
-      count = apply_count_strategy(default_weight + group.count(entry), strategy)
-      results[name] = count.positive? ? count.to_f / total_count : 0.0
-    end
-
-    results
+    # Final results must be within 0.0..1.0, so divide each score by the total score
+    per_group_score.transform_values { |group_score| group_score.to_f / total_score }
   end
 
   # Return a word score dictionary that excludes the 4th quartile most popular words.
