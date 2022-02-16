@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    groupie (0.4.1)
+    groupie (0.5.0)
 
 GEM
   remote: https://rubygems.org/

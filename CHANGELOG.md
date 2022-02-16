@@ -1,10 +1,12 @@
 ## Unreleased changes
 
-The next release will be 0.5.0 due to a breaking change: removal of code that was deprecated in 0.4.0.
+## Version 0.5.0 -- 2022-02-16
 
-- Breaking: remove `String#tokenize` core extension; please use `Groupie.tokenize(string)` instead
-- Breaking: due to changed internals, YAML serialized data from 0.4.x will lack some of the new internal caches. I'd suggest loading the old data and adding the words from each group to a new (0.5.x) instance of Groupie.
-- Feat: add support for smart default weights, reducing the effect of low data on predictions
+This release has breaking changes (deprecation cleanup and internals rework), a new feature (smart weights!) and is officially tested on Ruby 3.1.0 (it's what I use). I've enabled the setting to require MFA to publish this gem, to help protect those who use it.
+
+- Breaking: remove `String#tokenize` core extension; please use `Groupie.tokenize(string)` instead [#39](https://github.com/Narnach/groupie/pull/39)
+- Breaking: due to changed internals, YAML serialized data from 0.4.x will lack some of the new internal caches. I'd suggest loading the old data and adding the words from each group to a new (0.5.x) instance of Groupie. [#40](https://github.com/Narnach/groupie/pull/40)
+- Feat: add support for smart default weights, reducing the effect of low data on predictions [#40](https://github.com/Narnach/groupie/pull/40)
 - Deps: add Ruby 3.1 to list of tested & supported gems
 - Chore: require multi-factor authentication to publish gem updates
 - Chore: add Security.md to advertise a security policy
