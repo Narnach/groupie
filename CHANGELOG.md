@@ -3,6 +3,7 @@
 The next release will be 0.5.0 due to a breaking change: removal of code that was deprecated in 0.4.0.
 
 - Breaking: remove `String#tokenize` core extension; please use `Groupie.tokenize(string)` instead
+- Breaking: due to changed internals, YAML serialized data from 0.4.x will lack some of the new internal caches. I'd suggest loading the old data and adding the words from each group to a new (0.5.x) instance of Groupie.
 - Feat: add support for smart default weights, reducing the effect of low data on predictions
 - Deps: add Ruby 3.1 to list of tested & supported gems
 - Chore: require multi-factor authentication to publish gem updates

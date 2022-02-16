@@ -37,7 +37,7 @@ class Groupie
   # @param [Object] group The name of the group to access.
   # @return [Groupie::Group] An existing or new group identified by +group+.
   def [](group)
-    @groups[group] ||= Group.new(group)
+    @groups[group] ||= Group.new(group, self)
   end
 
   # Classify a text by taking the average of all word classifications.
@@ -112,10 +112,8 @@ class Groupie
     total_words = 0
     unique_words = Set.new
     @groups.each_value do |group|
-      group.word_counts.each do |word, count|
-        unique_words << word
-        total_words += count
-      end
+      unique_words += group.words
+      total_words += group.total_word_count
     end
     total_unique_words = unique_words.count
     return 0.0 unless total_unique_words.positive?

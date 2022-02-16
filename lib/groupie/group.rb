@@ -3,11 +3,13 @@
 class Groupie
   # Group represents a group or category that words can be classified into.
   class Group
-    attr_reader :word_counts
+    attr_reader :word_counts, :total_word_count
 
-    def initialize(name)
+    def initialize(name, groupie)
       @name = name
+      @groupie = groupie
       @word_counts = {}
+      @total_word_count = 0
     end
 
     def words
@@ -35,6 +37,7 @@ class Groupie
     def add_word(word)
       @word_counts[word] ||= 0
       @word_counts[word] += 1
+      @total_word_count += 1
     end
   end
 end
