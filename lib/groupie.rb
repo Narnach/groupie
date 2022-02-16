@@ -107,16 +107,15 @@ class Groupie
   #
   # @return [Float] The default weight for all words
   def default_weight
+    # Default weight only applies when smart weight is enabled
     return 0.0 unless smart_weight
 
-    # Find all unique words and the total count of all words
-    total_words = 0
-    @groups.each_value do |group|
-      total_words += group.total_word_count
-    end
-    total_unique_words = @known_words.count
-    return 0.0 unless total_unique_words.positive?
+    # If we don't know any words, the weight is also zero
+    return 0.0 unless @known_words.any?
 
+    # Gather counts and calculate
+    total_words = @groups.each_value.sum(&:total_word_count)
+    total_unique_words = @known_words.count
     total_words / total_unique_words.to_f
   end
 
