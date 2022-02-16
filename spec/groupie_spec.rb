@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'yaml'
+require 'psych'
 
 RSpec.describe Groupie do
   it 'has a version' do
@@ -286,7 +286,9 @@ RSpec.describe Groupie do
     groupie['one'].add %w[buy flowers]
     groupie['two'].add %w[buy roses]
 
-    loaded = YAML.unsafe_load(YAML.dump(groupie))
+    # Use Psych via a Gem to have a consistent library interface vs older versions in older Ruby versions
+    yaml = Psych.dump(groupie)
+    loaded = Psych.safe_load(yaml, aliases: true, permitted_classes: [Groupie, Groupie::Group, Set])
 
     expect(loaded.classify_text(%w[buy candy])).to eq(groupie.classify_text(%w[buy candy]))
   end
