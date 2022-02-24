@@ -17,13 +17,38 @@ class Groupie
     def to_tokens
       return @tokens if @tokens
 
-      # Ignore case by downcasing everything
+      # In-place modifications to our @raw String
+      downcase!
+      normalize_whitespace!
+      strip_html_tags!
+      tokenize_urls!
+      strip_non_word_characters!
+
+      # Split the resulting string on whitespace and clean up the token candidates
+      @tokens = @raw.split.map { |str| remove_interpunction!(str) }
+
+      @tokens
+    end
+
+    private
+
+    # Ignore case by downcasing everything
+    def downcase!
       @raw.downcase!
-      # Convert all types of whitespace (space, tab, newline) into regular spaces
+    end
+
+    # Convert all types of whitespace (space, tab, newline) into regular spaces
+    def normalize_whitespace!
       @raw.gsub!(/\s+/, ' ')
-      # Strip HTML tags entirely
+    end
+
+    # Strip HTML tags entirely
+    def strip_html_tags!
       @raw.gsub!(/<[^>]+?>/, ' ')
-      # Intelligently split URLs into their component parts
+    end
+
+    # Intelligently split URLs into their component parts
+    def tokenize_urls!
       @raw.gsub!(%r{http[\w\-\#:/_.?&=]+}) do |url|
         uri = URI.parse(url)
         path = uri.path.to_s
@@ -34,16 +59,17 @@ class Groupie
         fragment.tr!('#_/\-', ' ')
         "#{uri.scheme} #{uri.host} #{path} #{query} #{fragment}"
       end
-      # Strip characters not likely to be part of a word or number
-      @raw.gsub!(/[^\w\ \-.,]/, ' ')
-      # Split the resulting string on whitespace
-      @tokens = @raw.split.map do |str|
-        # Final cleanup of wrapped quotes and interpunction
-        str.gsub!(/\A['"]+|[!,."']+\Z/, '')
-        str
-      end
+    end
 
-      @tokens
+    # Strip characters not likely to be part of a word or number
+    def strip_non_word_characters!
+      @raw.gsub!(/[^\w\ \-.,]/, ' ')
+    end
+
+    # Remove wrapping quotes and interpunction from individual token candidates
+    def remove_interpunction!(str)
+      str.gsub!(/\A['"]+|[!,."']+\Z/, '')
+      str
     end
   end
 end
