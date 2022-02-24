@@ -1,5 +1,7 @@
 ## Unreleased changes
 
+- Feat: add better tokenization support for URIs.
+
 ## Version 0.5.0 -- 2022-02-16
 
 This release has breaking changes (deprecation cleanup and internals rework), a new feature (smart weights!) and is officially tested on Ruby 3.1.0 (it's what I use). I've enabled the setting to require MFA to publish this gem, to help protect those who use it.
