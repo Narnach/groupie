@@ -2,6 +2,7 @@
 
 require_relative 'groupie/version'
 require_relative 'groupie/group'
+require_relative 'groupie/tokenizer'
 require 'set'
 
 # Groupie is a text grouper and classifier, using naive Bayesian filtering.
@@ -24,33 +25,7 @@ class Groupie
   # @param [String, #to_s] object
   # @return [Array<String>]
   def self.tokenize(object)
-    # Ensure our object is converted to a String and duplicated so we can modify it in-place
-    object = object.to_s.dup
-    # Ignore case by downcasing everything
-    object.downcase!
-    # Convert all types of whitespace (space, tab, newline) into regular spaces
-    object.gsub!(/\s+/, ' ')
-    # Strip HTML tags entirely
-    object.gsub!(/<[^>]+?>/, ' ')
-    # Intelligently split URLs into their component parts
-    object.gsub!(%r{http[\w\-\#:/_.?&=]+}) do |url|
-      uri = URI.parse(url)
-      path = uri.path.to_s
-      path.tr!('/_\-', ' ')
-      query = uri.query.to_s
-      query.tr!('?=&#_\-', ' ')
-      fragment = uri.fragment.to_s
-      fragment.tr!('#_/\-', ' ')
-      "#{uri.scheme} #{uri.host} #{path} #{query} #{fragment}"
-    end
-    # Strip characters not likely to be part of a word or number
-    object.gsub!(/[^\w\ \-.,]/, ' ')
-    # Split the resulting string on whitespace
-    object.split.map do |str|
-      # Final cleanup of wrapped quotes and interpunction
-      str.gsub!(/\A['"]+|[!,."']+\Z/, '')
-      str
-    end
+    Tokenizer.new(object).to_tokens
   end
 
   # Access an existing Group or create a new one.
