@@ -2,6 +2,7 @@
 
 require_relative 'groupie/version'
 require_relative 'groupie/group'
+require_relative 'groupie/tokenizer'
 require 'set'
 
 # Groupie is a text grouper and classifier, using naive Bayesian filtering.
@@ -24,13 +25,7 @@ class Groupie
   # @param [String, #to_s] object
   # @return [Array<String>]
   def self.tokenize(object)
-    object
-      .to_s
-      .downcase
-      .gsub(/\s/, ' ')
-      .gsub(/[$']/, '')
-      .gsub(/<[^>]+?>|[^\w -.,]/, '')
-      .split.map { |str| str.gsub(/\A['"]+|[!,."']+\Z/, '') }
+    Tokenizer.new(object).to_tokens
   end
 
   # Access an existing Group or create a new one.
