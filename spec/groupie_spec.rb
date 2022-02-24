@@ -220,6 +220,14 @@ RSpec.describe Groupie do
     it 'strips quotes around tokens' do
       Groupie.tokenize('"first last"').should == %w[first last]
     end
+
+    it 'extracts words from urls' do
+      expect(
+        Groupie.tokenize('https://example.org/blog-path/2022/1234-title-of-blog-post?custom=query&foo=bar#my-anchor')
+      ).to eq(
+        %w[https example.org blog path 2022 1234 title of blog post custom query foo bar my anchor]
+      )
+    end
   end
 
   describe 'when smart_weight is enabled' do

@@ -27,9 +27,18 @@ class Groupie
     object
       .to_s
       .downcase
-      .gsub(/\s/, ' ')
+      .gsub(/\s+/, ' ')
       .gsub(/[$']/, '')
-      .gsub(/<[^>]+?>|[^\w -.,]/, '')
+      .gsub(/<[^>]+?>/, ' ')
+      .gsub(%r{http[\w\-\#:/_.?&=]+}) do |url|
+        uri = URI.parse(url)
+        path = uri.path.to_s.tr('/_\-', ' ')
+        query = uri.query.to_s.tr('?=&#_\-', ' ')
+        fragment = uri.fragment.to_s.tr('#_/\-', ' ')
+        split = "#{uri.scheme} #{uri.host} #{path} #{query} #{fragment}"
+        split
+      end
+      .gsub(/[^\w -.,]/, ' ')
       .split.map { |str| str.gsub(/\A['"]+|[!,."']+\Z/, '') }
   end
 
