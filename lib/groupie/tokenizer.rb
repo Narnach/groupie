@@ -50,17 +50,13 @@ class Groupie
     # Intelligently split URLs into their component parts
     def tokenize_urls!
       @raw.gsub!(%r{http[\w\-\#:/_.?&=]+}) do |url|
-        uri = URI.parse(url)
-      rescue URI::InvalidURIError
-        url
-      else
-        path = uri.path.to_s
-        path.tr!('/_\-', ' ')
-        query = uri.query.to_s
-        query.tr!('?=&#_\-', ' ')
-        fragment = uri.fragment.to_s
-        fragment.tr!('#_/\-', ' ')
-        "#{uri.scheme} #{uri.host} #{path} #{query} #{fragment}"
+        maybe_parse_url(url) do |uri|
+          path = uri.path.tap { |str| str&.tr!('/_\-', ' ') }
+          query = uri.query.tap { |str| str&.tr!('?=&#_\-', ' ') }
+          fragment = uri.fragment.tap { |str| str&.tr!('#_/\-', ' ') }
+
+          "#{uri.scheme} #{uri.host} #{path} #{query} #{fragment}"
+        end
       end
     end
 
@@ -73,6 +69,17 @@ class Groupie
     def remove_interpunction!(str)
       str.gsub!(/\A['"]+|[!,."']+\Z/, '')
       str
+    end
+
+    # Sometimes a String looks like a URL, but it's not.
+    # This method attempts to parse the input string into a URI.
+    # If it's successful, yield it to the block and return its response.
+    # In case of failure, return the original string.
+    def maybe_parse_url(input)
+      uri = URI.parse(input)
+      yield uri
+    rescue URI::InvalidURIError
+      input
     end
   end
 end
