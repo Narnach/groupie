@@ -228,6 +228,10 @@ RSpec.describe Groupie do
         %w[https example.org blog path 2022 1234 title of blog post custom query foo bar my anchor]
       )
     end
+
+    it 'treats invalid URLs as plain text' do
+      expect(Groupie.tokenize('http://localhost:3000&amp')).to eq(%w[http localhost 3000 amp])
+    end
   end
 
   describe 'when smart_weight is enabled' do

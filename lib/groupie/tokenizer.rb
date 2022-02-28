@@ -51,6 +51,9 @@ class Groupie
     def tokenize_urls!
       @raw.gsub!(%r{http[\w\-\#:/_.?&=]+}) do |url|
         uri = URI.parse(url)
+      rescue URI::InvalidURIError
+        url
+      else
         path = uri.path.to_s
         path.tr!('/_\-', ' ')
         query = uri.query.to_s
