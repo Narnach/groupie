@@ -1,6 +1,6 @@
 ## Unreleased changes
 
-- Feat: add better tokenization support for URIs.
+- Feat: add better tokenization support for URIs ([#42](https://github.com/Narnach/groupie/pull/42), [#44](https://github.com/Narnach/groupie/pull/44))
 
 ## Version 0.5.0 -- 2022-02-16
 
