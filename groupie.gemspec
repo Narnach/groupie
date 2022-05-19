@@ -13,7 +13,9 @@ Gem::Specification.new do |spec|
                      ' of one of the defined groups. Think of bayesian spam filters.'
   spec.homepage = 'https://github.com/Narnach/groupie'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 2.6.0' # EOL for 2.6 is 2022-03-31, so support this as the minimum for now
+  # Ruby maintains support for the last 3-4 minor versions, so that's what we do as well.
+  # See: https://www.ruby-lang.org/en/downloads/branches/
+  spec.required_ruby_version = '>= 2.7.0'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/Narnach/groupie'

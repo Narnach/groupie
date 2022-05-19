@@ -8,9 +8,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
       - name: Install Ruby & Gems
-        uses: ruby/setup-ruby@v1 # Uses .ruby-version as version input
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.0
+          ruby-version: 2.7
           bundler-cache: true
       - name: Rubocop
         # https://github.com/reviewdog/action-rubocop
