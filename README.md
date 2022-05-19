@@ -138,7 +138,7 @@ To release a new version (obviously only for the maintainer):
 - Update the version number in `version.rb` to reference the same version as the Changelog.
 - Commit the changes with a clear name (such as "Release version X.Y.Z")
 - Run `bundle exec rake release`, which will build the gem, create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org). It requires 2FA. For obvious reasons, only the project maintainer can do this.
-- Create a [new Release](https://github.com/Narnach/groupie/releases/new) on Github. Copy/paste the Changelog body as minimum release notes. Release name is simply "Version X.Y.Z". Add `:warning:` and `:loudspeaker:` before Breaking and Feature changes. Double check relevant changes reference their PR.
+- Create a [new Release](https://github.com/Narnach/groupie/releases/new) on Github. Copy/paste the Changelog body as minimum release notes. Release name is simply "Version X.Y.Z". Add `:rotating_light:` and `:loudspeaker:` before Breaking and Feature changes. Double check relevant changes reference their PR.
 
 ## Contributing
 
