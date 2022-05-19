@@ -2,7 +2,7 @@
 
 # This extends Groupie and adds a version number
 class Groupie
-  VERSION = '0.5.0'
+  VERSION = '0.6.0'
 
   def self.version
     VERSION

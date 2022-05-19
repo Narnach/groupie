@@ -1,5 +1,9 @@
 ## Unreleased changes
 
+## Version 0.6.0 -- 2022-05-19
+
+This release bumps the minimum Ruby version, so it's technically breaking if you're using a currently unsupported Ruby version. It also improves the tokenization of URLs by using their structure and common token boundaries to easily extract tokens.
+
 - Breaking: drop support for Ruby 2.6, minimum is 2.7 ([#58](https://github.com/Narnach/groupie/pull/58))
 - Feat: add better tokenization support for URIs ([#42](https://github.com/Narnach/groupie/pull/42), [#44](https://github.com/Narnach/groupie/pull/44))
 - Dev: Rubocop ignores unsafe cops, hides info severity ([#59](https://github.com/Narnach/groupie/pull/59))
