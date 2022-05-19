@@ -47,7 +47,7 @@ class Groupie
     group_score_sums, hits = calculate_group_scores(words, strategy)
 
     group_score_sums.each.with_object({}) do |(group, sum), averages|
-      averages[group] = hits.positive? ? sum / hits : 0
+      averages[group] = sum / hits
     end
   end
 

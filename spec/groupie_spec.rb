@@ -189,48 +189,9 @@ RSpec.describe Groupie do
   end
 
   describe '.tokenize' do
+    # See Groupie::Tokenizer for all edge cases
     it 'splits words' do
       Groupie.tokenize('hello world').should == %w[hello world]
-    end
-
-    it 'downcases words' do
-      Groupie.tokenize('Hello World').should == %w[hello world]
-    end
-
-    it 'strips special characters' do
-      Groupie.tokenize('blah, bla!').should == %w[blah bla]
-    end
-
-    it 'prserves infix hyphens and underscores' do
-      Groupie.tokenize('hyphen-ated under_score').should == %w[hyphen-ated under_score]
-    end
-
-    it 'sanitizes html tags' do
-      Groupie.tokenize('<a href="http://example.org">example</a>').should == %w[example]
-    end
-
-    it 'preserves infix periods' do
-      Groupie.tokenize('example.org rocks. read it...').should == %w[example.org rocks read it]
-    end
-
-    it 'preserves infix commas' do
-      Groupie.tokenize('$1,000,000.00 or $1.000.000,00').should == %w[1,000,000.00 or 1.000.000,00]
-    end
-
-    it 'strips quotes around tokens' do
-      Groupie.tokenize('"first last"').should == %w[first last]
-    end
-
-    it 'extracts words from urls' do
-      expect(
-        Groupie.tokenize('https://example.org/blog-path/2022/1234-title-of-blog-post?custom=query&foo=bar#my-anchor')
-      ).to eq(
-        %w[https example.org blog path 2022 1234 title of blog post custom query foo bar my anchor]
-      )
-    end
-
-    it 'treats invalid URLs as plain text' do
-      expect(Groupie.tokenize('http://localhost:3000&amp')).to eq(%w[http localhost 3000 amp])
     end
   end
 

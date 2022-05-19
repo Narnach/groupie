@@ -3,6 +3,7 @@
 - Breaking: drop support for Ruby 2.6, minimum is 2.7 ([#58](https://github.com/Narnach/groupie/pull/58))
 - Feat: add better tokenization support for URIs ([#42](https://github.com/Narnach/groupie/pull/42), [#44](https://github.com/Narnach/groupie/pull/44))
 - Dev: Rubocop ignores unsafe cops, hides info severity ([#59](https://github.com/Narnach/groupie/pull/59))
+- Dev: enforce 100% test coverage ([#60](https://github.com/Narnach/groupie/pull/60))
 
 ## Version 0.5.0 -- 2022-02-16
 
