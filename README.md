@@ -129,7 +129,16 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
-To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org). For obvious reasons, only the project maintainer can do this.
+## Version release procedure
+
+To release a new version (obviously only for the maintainer):
+
+- Decide on the new version number. We follow Sematic Versioning, so breaking changes bump the major version, new features bump the minor, bugfixes bump the patch. At version 0.x, treat the minor version as if it were a major version (i.e. breaking changes bump the minor).
+- Update the [Changelog](./CHANGELOG.md) to add a version header with the current date. Please preserve "Unreleased changes" and give it a newline to breathe a bit.
+- Update the version number in `version.rb` to reference the same version as the Changelog.
+- Commit the changes with a clear name (such as "Release version X.Y.Z")
+- Run `bundle exec rake release`, which will build the gem, create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org). It requires 2FA. For obvious reasons, only the project maintainer can do this.
+- Create a [new Release](https://github.com/Narnach/groupie/releases/new) on Github. Copy/paste the Changelog body as minimum release notes. Release name is simply "Version X.Y.Z". Add `:warning:` and `:loudspeaker:` before Breaking and Feature changes. Double check relevant changes reference their PR.
 
 ## Contributing
 
