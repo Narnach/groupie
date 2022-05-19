@@ -51,7 +51,7 @@ class Groupie
     def tokenize_urls!
       @raw.gsub!(%r{http[\w\-\#:/_.?&=]+}) do |url|
         maybe_parse_url(url) do |uri|
-          path = uri.path.tap { |str| str&.tr!('/_\-', ' ') }
+          path = uri.path.tap { |str| str.tr!('/_\-', ' ') }
           query = uri.query.tap { |str| str&.tr!('?=&#_\-', ' ') }
           fragment = uri.fragment.tap { |str| str&.tr!('#_/\-', ' ') }
 

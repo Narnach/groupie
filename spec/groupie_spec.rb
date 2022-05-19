@@ -229,6 +229,10 @@ RSpec.describe Groupie do
       )
     end
 
+    it 'extracts words from urls without path' do
+      expect(Groupie.tokenize('https://example.org')).to eq(%w[https example.org])
+    end
+
     it 'treats invalid URLs as plain text' do
       expect(Groupie.tokenize('http://localhost:3000&amp')).to eq(%w[http localhost 3000 amp])
     end
