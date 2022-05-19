@@ -1,2 +1,15 @@
 #!/bin/bash
-bundle exec rubocop --force-exclusion $*
+# Run Rubocop with sane defaults
+# - only recognized file types: allows you to pipe in anything and have Ruboop only check files it thinks it can handle
+# - force exclusion: even when piping in files, it still ignores what I should not touch
+# - display style guide: help figure out what a rule is supposed to do
+# - safe: don't run experimental cops
+# - display only fail level offenses: hides INFO severity failing cops
+
+bundle exec rubocop \
+  --only-recognized-file-types \
+  --force-exclusion \
+  --display-style-guide \
+  --safe \
+  --display-only-fail-level-offenses \
+  $*
