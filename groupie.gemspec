@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.email = ['wes@narnach.com']
 
   spec.summary = 'Library to help you group texts and classify new ones'
-  spec.description = 'Groupie is a simple way to group texts and classify new texts as being a likely member' \
-                     ' of one of the defined groups. Think of bayesian spam filters.'
+  spec.description = 'Groupie is a simple way to group texts and classify new texts as being a likely member ' \
+                     'of one of the defined groups. Think of bayesian spam filters.'
   spec.homepage = 'https://github.com/Narnach/groupie'
   spec.license = 'MIT'
   # Ruby maintains support for the last 3-4 minor versions, so that's what we do as well.
