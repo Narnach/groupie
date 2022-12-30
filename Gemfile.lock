@@ -13,7 +13,7 @@ GEM
     parallel (1.22.1)
     parser (3.1.2.1)
       ast (~> 2.4.1)
-    psych (4.0.6)
+    psych (5.0.1)
       stringio
     rainbow (3.1.1)
     rake (13.0.6)
@@ -58,7 +58,7 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    stringio (3.0.2)
+    stringio (3.0.4)
     unicode-display_width (2.3.0)
 
 PLATFORMS
@@ -68,7 +68,7 @@ PLATFORMS
 
 DEPENDENCIES
   groupie!
-  psych (~> 4.0)
+  psych (~> 5.0)
   rake (~> 13.0)
   rspec (~> 3.0)
   rubocop (~> 1.7)
